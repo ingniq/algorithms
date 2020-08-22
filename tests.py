@@ -114,6 +114,7 @@ class TestLinkedListMethods(unittest.TestCase):
         self.linked_list.delete(NODE_VALUE, True)
         nodes = self.linked_list.find_all(NODE_VALUE)
         self.assertEqual(len(nodes), 0)
+        self.assertEqual(self.linked_list.tail.value, 55)
 
     def test_len(self):
         count_nodes = self.linked_list.len()

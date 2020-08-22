@@ -68,6 +68,10 @@ class LinkedList:
                 if before_node:
                     before_node.next = after_node
                 node.next = None
+
+                if node is self.tail:
+                    self.tail = before_node
+
                 if not all:
                     return
             else:
