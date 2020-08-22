@@ -53,7 +53,7 @@ class LinkedList:
         node = self.head
 
         if not val or not node or not self.find(val):
-            pass
+            return
 
         if node.value == val:
             self.head = node.next

@@ -123,6 +123,11 @@ class TestLinkedListMethods(unittest.TestCase):
         self.assertIsNone(self.linked_list.head)
         self.assertIsNone(self.linked_list.tail)
 
+        self.linked_list.delete(55)
+        self.assertEqual(self.linked_list.len(), 0)
+        self.assertIsNone(self.linked_list.head)
+        self.assertIsNone(self.linked_list.tail)
+
     def test_len(self):
         count_nodes = self.linked_list.len()
         self.assertEqual(count_nodes, 3)
