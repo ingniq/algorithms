@@ -99,6 +99,7 @@ class TestLinkedListMethods(unittest.TestCase):
         self.assertEqual(len(nodes), 4)
 
     def test_delete(self):
+        # удаление первого найденого элемента из нескольких найденых
         NODE_VALUE = 12
         nodes = self.linked_list.find_all(NODE_VALUE)
         self.assertEqual(len(nodes), 2)
@@ -109,6 +110,7 @@ class TestLinkedListMethods(unittest.TestCase):
         self.assertEqual(self.linked_list.head.value, 55)
         self.assertEqual(self.linked_list.tail.value, 12)
 
+        # удаление всех найденых элементов
         self.linked_list.add_in_tail(Node(NODE_VALUE))
         nodes = self.linked_list.find_all(NODE_VALUE)
         self.assertEqual(len(nodes), 2)
@@ -118,15 +120,36 @@ class TestLinkedListMethods(unittest.TestCase):
         self.assertEqual(len(nodes), 0)
         self.assertEqual(self.linked_list.tail.value, 55)
 
+        # удаление единственного элемента в списке
         self.linked_list.delete(55)
         self.assertEqual(self.linked_list.len(), 0)
         self.assertIsNone(self.linked_list.head)
         self.assertIsNone(self.linked_list.tail)
 
+        # удаление элемента из пустого списка
+        self.assertEqual(self.linked_list.len(), 0)
         self.linked_list.delete(55)
         self.assertEqual(self.linked_list.len(), 0)
         self.assertIsNone(self.linked_list.head)
         self.assertIsNone(self.linked_list.tail)
+
+        # удаление элемента из списка после чего остается только один элемент в списке
+        self.linked_list.add_in_tail(Node(NODE_VALUE))
+        self.linked_list.add_in_tail(Node(55))
+
+        self.linked_list.delete(55)
+        self.assertEqual(self.linked_list.head.value, 12)
+        self.assertEqual(self.linked_list.tail.value, 12)
+        self.assertIsNone(self.linked_list.head.next)
+        self.assertIsNone(self.linked_list.tail.next)
+
+        self.linked_list.add_in_tail(Node(55))
+
+        self.linked_list.delete(NODE_VALUE)
+        self.assertEqual(self.linked_list.head.value, 55)
+        self.assertEqual(self.linked_list.tail.value, 55)
+        self.assertIsNone(self.linked_list.head.next)
+        self.assertIsNone(self.linked_list.tail.next)
 
     def test_len(self):
         count_nodes = self.linked_list.len()

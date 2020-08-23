@@ -57,8 +57,10 @@ class LinkedList:
 
         if node.value == val:
             self.head = node.next
+            node.next = None
+            node = self.head
 
-            if node.next is None:
+            if self.head is None:
                 self.tail = None
 
             if not all:
@@ -80,7 +82,6 @@ class LinkedList:
                     return
             else:
                 before_node = node
-
             node = after_node
 
     def clean(self):
@@ -90,7 +91,6 @@ class LinkedList:
 
         self.head = None
         self.tail = None
-
 
     def len(self):
         nodes = self.find_all()
