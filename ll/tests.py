@@ -273,7 +273,7 @@ class TestLinkedListMethods(unittest.TestCase):
         linked_list.add_in_tail(Node(1))
         linked_list.add_in_tail(Node(2))
         linked_list.add_in_tail(Node(3))
-        self.linked_list.insert(Node(1500), NODE_VALUE)
+        linked_list.insert(Node(1500), NODE_VALUE)
         self.assertEqual(linked_list.len(), 3)
         self.assertEqual(linked_list.head.value, 1)
         self.assertEqual(linked_list.tail.value, 3)
