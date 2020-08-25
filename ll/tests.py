@@ -183,7 +183,6 @@ class TestLinkedListMethods(unittest.TestCase):
         self.assertIsNone(n5.next)
         self.assertIsNone(n6.next)
 
-
     def test_len(self):
         count_nodes = self.linked_list.len()
         self.assertEqual(count_nodes, 3)
