@@ -142,6 +142,7 @@ class TestLinkedListMethods(unittest.TestCase):
         self.assertEqual(self.linked_list.tail.value, 12)
         self.assertIsNone(self.linked_list.head.next)
         self.assertIsNone(self.linked_list.tail.next)
+        self.assertEqual(self.linked_list.len(), 1)
 
         self.linked_list.add_in_tail(Node(55))
 
@@ -150,6 +151,38 @@ class TestLinkedListMethods(unittest.TestCase):
         self.assertEqual(self.linked_list.tail.value, 55)
         self.assertIsNone(self.linked_list.head.next)
         self.assertIsNone(self.linked_list.tail.next)
+        self.assertEqual(self.linked_list.len(), 1)
+
+        # проверка на удаление элементов со значением 0 и проверка связей для всех узлов в памяти
+        n1 = Node(0)
+        n2 = Node(0)
+        n3 = Node(1)
+        n4 = Node(1)
+        n5 = Node(2)
+        n6 = Node(2)
+        linked_list = LinkedList()
+        linked_list.add_in_tail(n1)
+        linked_list.add_in_tail(n2)
+        linked_list.add_in_tail(n3)
+        linked_list.add_in_tail(n4)
+        linked_list.add_in_tail(n5)
+        linked_list.add_in_tail(n6)
+        linked_list.delete(1, True)
+        linked_list.delete(2, True)
+        linked_list.delete(0)
+        self.assertEqual(linked_list.head.value, 0)
+        self.assertEqual(linked_list.tail.value, 0)
+        self.assertIsNone(linked_list.head.next)
+        self.assertIsNone(linked_list.tail.next)
+        self.assertEqual(linked_list.len(), 1)
+
+        self.assertIsNone(n1.next)
+        self.assertIsNone(n2.next)
+        self.assertIsNone(n3.next)
+        self.assertIsNone(n4.next)
+        self.assertIsNone(n5.next)
+        self.assertIsNone(n6.next)
+
 
     def test_len(self):
         count_nodes = self.linked_list.len()

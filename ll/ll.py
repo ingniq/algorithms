@@ -52,7 +52,7 @@ class LinkedList:
     def delete(self, val, all=False):
         node = self.head
 
-        if not val or not node or not self.find(val):
+        if not node or not self.find(val):
             return
 
         if node.value == val:
