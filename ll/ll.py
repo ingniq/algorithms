@@ -102,8 +102,12 @@ class LinkedList:
             return
 
         if afterNode is None:
+            if self.head is None:
+                self.tail = newNode
+
             newNode.next = self.head
             self.head = newNode
+
             return
 
         if not self._validate_node(afterNode):
