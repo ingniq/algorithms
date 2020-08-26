@@ -252,6 +252,18 @@ class TestLinkedListMethods(unittest.TestCase):
         self.assertEqual(self.linked_list.len(), 4)
         self.assertEqual(self.linked_list.tail.value, 12)
 
+        # вставка в список со многими элементами в конец списка
+        linked_list = LinkedList()
+        linked_list.add_in_tail(Node(1))
+        linked_list.add_in_tail(Node(2))
+        linked_list.add_in_tail(Node(3))
+
+        linked_list.insert(linked_list.tail, Node(1200))
+        self.assertEqual(linked_list.head.value, 1)
+        self.assertEqual(linked_list.head.next.value, 2)
+        self.assertEqual(linked_list.len(), 4)
+        self.assertEqual(linked_list.tail.value, 1200)
+
         # вставка в список со многими элементами
         node = self.linked_list.find(55)
         self.linked_list.insert(node, Node(66))
@@ -260,7 +272,7 @@ class TestLinkedListMethods(unittest.TestCase):
         self.assertEqual(self.linked_list.head.value, 1200)
         self.assertEqual(self.linked_list.tail.value, 12)
 
-        # вставка в список отличного от Node элемента
+        # вставка в список отличного от типа Node элемента
         NODE_VALUE = 100
         self.linked_list.insert(node, NODE_VALUE)
         self.assertEqual(self.linked_list.len(), 5)
@@ -295,14 +307,27 @@ class TestLinkedListMethods(unittest.TestCase):
         self.assertIsNone(linked_list.head)
         self.assertIsNone(linked_list.tail)
 
-        # вставка в список с одним элементом и проверка на нулевое значение
+        # вставка в список в начало с одним элементом и проверка на нулевое значение
         linked_list = LinkedList()
+        linked_list.add_in_tail(Node(1))
         linked_list.insert(None, Node(0))
         node = linked_list.find(0)
-        self.assertEqual(linked_list.len(), 1)
+        self.assertEqual(linked_list.len(), 2)
         self.assertEqual(node.value, 0)
-        self.assertEqual(node.next, None)
+        self.assertEqual(node.next.value, 1)
         self.assertEqual(linked_list.head.value, 0)
+        self.assertEqual(linked_list.tail.value, 1)
+
+        # вставка в список с одним элементом в конец списка
+        linked_list = LinkedList()
+        linked_list.add_in_tail(Node(1))
+        node = linked_list.find(1)
+        linked_list.insert(node, Node(0))
+        node = linked_list.find(0)
+        self.assertEqual(linked_list.len(), 2)
+        self.assertEqual(node.value, 0)
+        self.assertIsNone(node.next)
+        self.assertEqual(linked_list.head.value, 1)
         self.assertEqual(linked_list.tail.value, 0)
 
     def test_validate_node(self):

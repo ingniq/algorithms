@@ -117,6 +117,9 @@ class LinkedList:
             # Node not found in List
             return
 
+        if afterNode.next is None:
+            self.tail = newNode
+
         newNode.next = afterNode.next
         afterNode.next = newNode
 
