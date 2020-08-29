@@ -109,6 +109,7 @@ class LinkedList2:
 
         newNode.next = afterNode.next
         newNode.prev = afterNode
+        afterNode.next.prev = newNode
         afterNode.next = newNode
 
     def add_in_head(self, newNode):
