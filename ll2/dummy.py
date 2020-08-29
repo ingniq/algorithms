@@ -1,14 +1,35 @@
 class _DummyNode:
     def __init__(self):
-        self.prev = None
-        self.next = None
+        self._prev = None
+        self._next = None
+
+    @property
+    def prev(self):
+        return None
+
+    @property
+    def next(self):
+        return None
 
 
-class Node():
+class Node(_DummyNode):
     def __init__(self, v):
         self.value = v
-        self.prev = None
-        self.next = None
+        super(Node, self).__init__()
+
+    @property
+    def prev(self):
+        if isinstance(self._prev, Node):
+            return self._prev
+
+        return None
+
+    @property
+    def next(self):
+        if isinstance(self._next, Node):
+            return self._next
+
+        return None
 
 
 class BaseLinkedList2:
@@ -16,8 +37,8 @@ class BaseLinkedList2:
         self._head = _DummyNode()
         self._tail = _DummyNode()
 
-        self._head.next = self._tail
-        self._tail.prev = self._head
+        self._head._next = self._tail
+        self._tail._prev = self._head
 
 
 class LinkedList2(BaseLinkedList2):
@@ -26,70 +47,70 @@ class LinkedList2(BaseLinkedList2):
 
     @property
     def head(self):
-        if isinstance(self._head.next, _DummyNode):
-            head = None
+        if isinstance(self._head._next, Node):
+            head = self._head._next
         else:
-            head = self._head.next
+            head = None
 
         return head
 
     @property
     def tail(self):
-        if isinstance(self._tail.prev, _DummyNode):
-            tail = None
+        if isinstance(self._tail._prev, Node):
+            tail = self._tail._prev
         else:
-            tail = self._tail.prev
+            tail = None
 
         return tail
 
     def add_in_tail(self, item):
-        item.next = self._tail
-        item.prev = self._tail.prev
-        self._tail.prev.next = item
-        self._tail.prev = item
+        item._next = self._tail
+        item._prev = self._tail._prev
+        self._tail._prev._next = item
+        self._tail._prev = item
 
     def print_all_nodes(self):
-        node = self._head.next
-        while not isinstance(node, _DummyNode):
+        node = self._head._next
+        while isinstance(node, Node):
             print(node.value)
-            node = node.next
+            node = node._next
 
     def find(self, val):
-        node = self._head.next
+        node = self._head._next
 
-        while not isinstance(node, _DummyNode):
+        while isinstance(node, Node):
             if node.value == val:
                 return node
-            node = node.next
+            node = node._next
 
         return None
 
     def find_all(self, val=None):
         result = []
-        node = self._head.next
+        node = self._head._next
 
-        while not isinstance(node, _DummyNode):
+        while isinstance(node, Node):
             if node.value == val or val is None:
                 result.append(node)
-            node = node.next
+            node = node._next
 
         return result
 
     def delete(self, val, all=False):
-        if isinstance(self._head.next, _DummyNode) or not self.find(val):
+        if not isinstance(self._head._next, Node) or not self.find(val):
             return
 
-        node = self._head.next
+        node = self._head._next
 
-        while not isinstance(node, _DummyNode):
-            next_node = node.next
+        while isinstance(node, Node):
+            next_node = node._next
 
             if node.value == val:
-                node.prev.next = node.next
-                node.next.prev = node.prev
+                node._prev._next = node._next
+                node._next._prev = node._prev
 
-                node.next = None
-                node.prev = None
+                node._next = None
+                node._prev = None
 
                 if not all:
                     return
@@ -108,31 +129,31 @@ class LinkedList2(BaseLinkedList2):
             return
 
         if afterNode is None:
-            afterNode = self._tail.prev
+            afterNode = self._tail._prev
 
-        newNode.next = afterNode.next
-        newNode.prev = afterNode
-        afterNode.next.prev = newNode
-        afterNode.next = newNode
+        newNode._next = afterNode._next
+        newNode._prev = afterNode
+        afterNode._next._prev = newNode
+        afterNode._next = newNode
 
     def add_in_head(self, newNode):
         if not self._validate_node(newNode):
             return
 
-        newNode.next = self._head.next
-        newNode.prev = self._head
-        self._head.next.prev = newNode
-        self._head.next = newNode
+        newNode._next = self._head._next
+        newNode._prev = self._head
+        self._head._next._prev = newNode
+        self._head._next = newNode
 
     def clean(self):
         nodes = self.find_all()
 
         for node in nodes:
-            node.next = None
-            node.prev = None
+            node._next = None
+            node._prev = None
 
-        self._head.next = self._tail
-        self._tail.prev = self._head
+        self._head._next = self._tail
+        self._tail._prev = self._head
 
     def len(self):
         nodes = self.find_all()

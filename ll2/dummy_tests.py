@@ -1,5 +1,5 @@
 import unittest
-from dummy import Node, LinkedList2, _DummyNode
+from dummy import Node, LinkedList2
 
 
 class TestLinkedList2Methods(unittest.TestCase):
@@ -197,10 +197,10 @@ class TestLinkedList2Methods(unittest.TestCase):
         self.assertEqual(ll.len(), 1)
         self.assertEqual(ll.head.value, 12)
         self.assertEqual(ll.tail.value, 12)
-        self.assertIsInstance(ll.head.next, _DummyNode)
-        self.assertIsInstance(ll.head.prev, _DummyNode)
-        self.assertIsInstance(ll.tail.next, _DummyNode)
-        self.assertIsInstance(ll.tail.prev, _DummyNode)
+        self.assertIsNone(ll.head.next)
+        self.assertIsNone(ll.head.prev)
+        self.assertIsNone(ll.tail.next)
+        self.assertIsNone(ll.tail.prev)
 
         ll.add_in_tail(Node(55))
         self.assertEqual(ll.len(), 2)
@@ -209,10 +209,10 @@ class TestLinkedList2Methods(unittest.TestCase):
         self.assertEqual(ll.len(), 1)
         self.assertEqual(ll.head.value, 55)
         self.assertEqual(ll.tail.value, 55)
-        self.assertIsInstance(ll.head.next, _DummyNode)
-        self.assertIsInstance(ll.head.prev, _DummyNode)
-        self.assertIsInstance(ll.tail.next, _DummyNode)
-        self.assertIsInstance(ll.tail.prev, _DummyNode)
+        self.assertIsNone(ll.head.next)
+        self.assertIsNone(ll.head.prev)
+        self.assertIsNone(ll.tail.next)
+        self.assertIsNone(ll.tail.prev)
 
         # проверка на удаление элементов со значением 0
         # и проверка связей для всех узлов в памяти
@@ -238,26 +238,24 @@ class TestLinkedList2Methods(unittest.TestCase):
         self.assertEqual(ll.len(), 1)
         self.assertEqual(ll.head.value, 0)
         self.assertEqual(ll.tail, ll.head)
-        self.assertIsInstance(ll.head.next, _DummyNode)
-        self.assertIsInstance(ll.head.prev, _DummyNode)
-        self.assertIsInstance(ll.tail.next, _DummyNode)
-        self.assertIsInstance(ll.tail.prev, _DummyNode)
+        self.assertIsNone(ll.head.next)
+        self.assertIsNone(ll.head.prev)
+        self.assertIsNone(ll.tail.next)
+        self.assertIsNone(ll.tail.prev)
 
         self.assertIsNone(n1.next)
-        self.assertIsInstance(n2.next, _DummyNode)
+        self.assertIsNone(n2.next)
         self.assertIsNone(n3.next)
         self.assertIsNone(n4.next)
         self.assertIsNone(n5.next)
         self.assertIsNone(n6.next)
 
         self.assertIsNone(n1.prev)
-        self.assertIsInstance(n2.prev, _DummyNode)
+        self.assertIsNone(n2.prev)
         self.assertIsNone(n3.prev)
         self.assertIsNone(n4.prev)
         self.assertIsNone(n5.prev)
         self.assertIsNone(n6.prev)
-
-        self.assertNotEqual(n2.next, n2.prev)
 
     def test_len(self):
         ll = LinkedList2()
@@ -349,8 +347,8 @@ class TestLinkedList2Methods(unittest.TestCase):
         self.assertEqual(node.value, 100)
         self.assertEqual(ll.head.value, 100)
         self.assertEqual(ll.tail, ll.head)
-        self.assertIsInstance(node.next, _DummyNode)
-        self.assertIsInstance(node.prev, _DummyNode)
+        self.assertIsNone(node.next)
+        self.assertIsNone(node.prev)
 
         # вставка в пустой список после несуществующего элемента
         ll = LinkedList2()
@@ -367,7 +365,7 @@ class TestLinkedList2Methods(unittest.TestCase):
         node = ll.find(0)
         self.assertEqual(ll.len(), 2)
         self.assertEqual(node.value, 0)
-        self.assertIsInstance(node.next, _DummyNode)        
+        self.assertIsNone(node.next)
         self.assertEqual(node.prev.value, 1)
         self.assertEqual(ll.head.value, 1)
         self.assertEqual(ll.tail.value, 0)
@@ -401,10 +399,10 @@ class TestLinkedList2Methods(unittest.TestCase):
         self.assertEqual(ll.len(), 1)
         self.assertEqual(ll.head.value, 1200)
         self.assertEqual(ll.tail.value, 1200)
-        self.assertIsInstance(ll.head.next, _DummyNode)
-        self.assertIsInstance(ll.head.prev, _DummyNode)
-        self.assertIsInstance(ll.tail.next, _DummyNode)
-        self.assertIsInstance(ll.tail.prev, _DummyNode)
+        self.assertIsNone(ll.head.next)
+        self.assertIsNone(ll.head.prev)
+        self.assertIsNone(ll.tail.next)
+        self.assertIsNone(ll.tail.prev)
 
         # вставка в список с одним элементом и проверка на нулевое значение
         ll = LinkedList2()
