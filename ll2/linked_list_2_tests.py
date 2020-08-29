@@ -1,6 +1,5 @@
 import unittest
 from ll import Node, LinkedList2
-from datetime import datetime
 
 
 class TestLinkedList2Methods(unittest.TestCase):
