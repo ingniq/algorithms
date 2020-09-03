@@ -258,7 +258,7 @@ class DynArrayMethods(unittest.TestCase):
         self.assertEqual(len(self.da.array), 16)
 
         # *** размер буфера меняется ***
-        # буфер уменьшается с 32 до 23, если кол-во элементов стало < 32/2
+        # буфер уменьшается с 32 до 21, если кол-во элементов стало < 32/2
         # заполнение буфера
         item_index = 7
         while item_index < 17:
@@ -274,30 +274,31 @@ class DynArrayMethods(unittest.TestCase):
         self.assertEqual(len(self.da.array), 32)
 
         self.da.delete(3)
-        self.assertEqual(self.da.capacity, 23)
-        self.assertEqual(len(self.da.array), 23)
+        self.assertEqual(self.da.capacity, 21)
+        self.assertEqual(len(self.da.array), 21)
 
-        # буфер уменьшается с 23 до 16 (не до 15!), если кол-во элементов стало < 23/2
+        # буфер уменьшается с 21 до 16 (не до 14!), если кол-во элементов стало < 21/2
         self.assertEqual(self.da.count, 15)
 
         self.da.delete(3)
         self.da.delete(3)
         self.da.delete(3)
         self.da.delete(3)
+        self.da.delete(3)
 
-        self.assertEqual(self.da.count, 11)
-        self.assertEqual(self.da.capacity, 23)
-        self.assertEqual(len(self.da.array), 23)
+        self.assertEqual(self.da.count, 10)
+        self.assertEqual(self.da.capacity, 21)
+        self.assertEqual(len(self.da.array), 21)
 
         self.da.delete(3)
-        self.assertEqual(self.da.count, 10)
+        self.assertEqual(self.da.count, 9)
         self.assertEqual(self.da.capacity, 16)
         self.assertEqual(len(self.da.array), 16)
 
         # буфер уменьшается с 64 до 42, если кол-во элементов стало < 64/2
         # заполнение буфера
-        item_index = 11
-        while item_index < 32:
+        item_index = 9
+        while item_index < 33:
             self.da.insert(item_index, self.test_0)
             item_index += 1
 
@@ -353,8 +354,8 @@ class DynArrayMethods(unittest.TestCase):
 
         # буфер уменьшается с 18 до 16 (не до 12!), если кол-во элементов стало < 18/2
         # удаление лишних элементов
-        item_index = 14
-        while item_index > 9:
+        item_index = 13
+        while item_index > 10:
             self.da.delete(item_index)
             item_index -= 1
         self.assertEqual(self.da.count, 10)
