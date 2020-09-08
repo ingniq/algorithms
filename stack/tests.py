@@ -1,5 +1,6 @@
 import unittest
 from stack import Stack
+from brackets import brackets_are_balanced
 
 
 class TestStackMethods(unittest.TestCase):
@@ -32,3 +33,22 @@ class TestStackMethods(unittest.TestCase):
         self.assertEqual(stack.pop(), 1)
         self.assertEqual(stack.peek(), None)
         self.assertEqual(stack.size(), 0)
+
+    def test_brackets(self):
+        result = brackets_are_balanced("(()((())()))")
+        self.assertTrue(result)
+
+        result = brackets_are_balanced("(()()(()")
+        self.assertFalse(result)
+        result = brackets_are_balanced("())(")
+        self.assertFalse(result)
+        result = brackets_are_balanced("))((")
+        self.assertFalse(result)
+        result = brackets_are_balanced("((())")
+        self.assertFalse(result)
+        result = brackets_are_balanced("((((((())")
+        self.assertFalse(result)
+        result = brackets_are_balanced("((())))")
+        self.assertFalse(result)
+        result = brackets_are_balanced("((()))))))")
+        self.assertFalse(result)
