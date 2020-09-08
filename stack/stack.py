@@ -14,11 +14,11 @@ class Stack:
         return result
 
     def push(self, value):
-        self.stack.add_in_head(Node(value))
+        self.stack.add_in_tail(Node(value))
 
     def peek(self):
-        if self.stack.head is not None:
-            return self.stack.head.value
+        if self.stack.tail is not None:
+            return self.stack.tail.value
 
         return None  # если стек пустой
 
