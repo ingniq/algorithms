@@ -6,10 +6,16 @@ class Stack:
         return len(self.stack)
 
     def pop(self):
-        result = self.peek()
+        result = None
+        node = self.stack.tail
 
-        if result is not None:
-            self.stack.delete(result)
+        if node is not None:
+            result = node.value
+
+            node._prev._next = node._next
+            node._next._prev = node._prev
+            node._next = None
+            node._prev = None
 
         return result
 

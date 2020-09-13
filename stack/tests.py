@@ -1,6 +1,7 @@
 import unittest
 from stack import Stack
 from brackets import brackets_are_balanced
+from expressions import postfix_eval
 
 
 class TestStackMethods(unittest.TestCase):
@@ -52,3 +53,8 @@ class TestStackMethods(unittest.TestCase):
         self.assertFalse(result)
         result = brackets_are_balanced("((()))))))")
         self.assertFalse(result)
+
+    def test_postfix_eval(self):
+        postfix_expr = "8 2 + 5 * 9 + = "
+
+        self.assertEqual(postfix_eval(postfix_expr), ((8 + 2) * 5) + 9)
