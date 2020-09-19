@@ -6,6 +6,7 @@ class Stack:
         return len(self.stack)
 
     def pop(self):
+        """Восемь операций сложностью O(1). Девятая - возврат значения."""
         result = None
         node = self.stack.tail
 
@@ -20,6 +21,7 @@ class Stack:
         return result
 
     def push(self, value):
+        """Четыре операции сложностью O(1) (искл. создание экземпляра Node)."""
         self.stack.add_in_tail(Node(value))
 
     def peek(self):

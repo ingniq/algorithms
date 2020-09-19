@@ -4,10 +4,12 @@ class Queue:
         self.queue = LinkedList2()
 
     def enqueue(self, item):
-        # вставка в хвост
+        """Четыре операции сложностью O(1) (искл. создание экземпляра Node)."""
+        # вставка в хвост.
         self.queue.add_in_tail(Node(item))
 
     def dequeue(self):
+        """Шесть операций сложностью O(1). Седьмая - возврат значения."""
         # выдача из головы
         node = self.queue.head
 
