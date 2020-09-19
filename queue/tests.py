@@ -1,5 +1,6 @@
 import unittest
 from queue_lesson import Queue
+from func import rotate
 
 
 class TestQueueMethods(unittest.TestCase):
@@ -55,3 +56,52 @@ class TestQueueMethods(unittest.TestCase):
         self.assertEqual(queue.queue.tail, None)
         # test size empty queue
         self.assertEqual(queue.size(), 0)
+
+    def test_rotate(self):
+        q = Queue()
+
+        q.enqueue(1)
+        q.enqueue(2)
+        q.enqueue(3)
+        q.enqueue(4)
+        q.enqueue(5)
+        q.enqueue(6)
+
+        self.assertEqual(q.queue.head.value, 1)
+        self.assertEqual(q.queue.tail.value, 6)
+
+        rotate(q, 3)
+
+        self.assertEqual(q.queue.head.value, 4)
+        self.assertEqual(q.queue.tail.value, 3)
+
+        rotate(q, 0)
+
+        self.assertEqual(q.queue.head.value, 4)
+        self.assertEqual(q.queue.tail.value, 3)
+
+        rotate(q, -3)
+
+        self.assertEqual(q.queue.head.value, 4)
+        self.assertEqual(q.queue.tail.value, 3)
+
+        rotate(q, 6)
+
+        self.assertEqual(q.queue.head.value, 4)
+        self.assertEqual(q.queue.tail.value, 3)
+
+        rotate(q, 7)
+
+        self.assertEqual(q.queue.head.value, 5)
+        self.assertEqual(q.queue.tail.value, 4)
+
+        rotate(q, 17)
+
+        self.assertEqual(q.queue.head.value, 4)
+        self.assertEqual(q.queue.tail.value, 3)
+
+        with self.assertRaisesRegex(ValueError, '^The second argument must be of the integer type.$'):
+            rotate(q, "17")
+
+        with self.assertRaisesRegex(ValueError, '^The first argument must be of the Queue type.$'):
+            rotate(q.queue, "17")
