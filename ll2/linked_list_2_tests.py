@@ -59,7 +59,7 @@ class TestLinkedList2Methods(unittest.TestCase):
         node = ll.find(None)
         self.assertEqual(node.value, None)
 
-        # поиск по "сложному" типу тданных
+        # поиск по "сложному" типу данных
         NODE_VAL = ['test', 12]
         ll.add_in_tail(Node(NODE_VAL))
         node = ll.find(NODE_VAL)
@@ -98,7 +98,7 @@ class TestLinkedList2Methods(unittest.TestCase):
         for node in nodes:
             self.assertEqual(node.value, 12)
 
-        # поиск по "сложному" типу тданных
+        # поиск по "сложному" типу данных
         NODE_VAL = ['test', 12]
         ll.add_in_tail(Node(NODE_VAL))
 
@@ -150,7 +150,7 @@ class TestLinkedList2Methods(unittest.TestCase):
         ll.add_in_tail(Node(12))
         self.assertEqual(ll.len(), 3)
 
-        # удаление первого найденого элемента из нескольких найденых
+        # удаление первого найденого элемента из нескольких найденных
         NODE_VALUE = 12
         nodes = ll.find_all(NODE_VALUE)
         self.assertEqual(len(nodes), 2)
@@ -162,7 +162,7 @@ class TestLinkedList2Methods(unittest.TestCase):
         self.assertEqual(ll.head.value, 55)
         self.assertEqual(ll.tail.value, 12)
 
-        # удаление всех найденых элементов
+        # удаление всех найденных элементов
         ll.add_in_tail(Node(NODE_VALUE))
         nodes = ll.find_all(NODE_VALUE)
         self.assertEqual(len(nodes), 2)
