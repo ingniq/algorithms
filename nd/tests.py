@@ -211,5 +211,11 @@ class TestNativeDictionaryMethods(unittest.TestCase):
         # отсутствует
         self.assertFalse(nd.is_key("test string"))
 
-        # не строка
+        # key не строка
         self.assertFalse(nd.is_key(123))
+
+        # value не строка
+        nd = NativeDictionary(17)
+        s = "0123456789"
+        nd.put(s, 123456789)
+        self.assertTrue(nd.is_key(s))

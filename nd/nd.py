@@ -40,7 +40,7 @@ class NativeDictionary:
         # гарантированно записываем
         # значение value по ключу key
 
-        if not isinstance(key, str) or not isinstance(value, str):
+        if not isinstance(key, str):
             return None
 
         # update value
