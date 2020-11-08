@@ -136,6 +136,10 @@ class TestNativeDictionaryMethods(unittest.TestCase):
         value = nd.get("string3")
         self.assertEqual("value 5", value)
 
+        # отсутствует
+        value = nd.get("string 3")
+        self.assertIsNone(value)
+
         # не строка
         value = 123
         value = nd.get(value)
