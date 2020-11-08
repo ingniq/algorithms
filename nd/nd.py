@@ -14,7 +14,7 @@ class NativeDictionary:
     def is_key(self, key):
         # возвращает True если ключ имеется,
         # иначе False
-        # index = self.hash_fun(key)
+
         if not isinstance(key, str):
             return False
 
@@ -72,15 +72,12 @@ class NativeDictionary:
 
         index = self.hash_fun(value)
 
-        if self.slots[index] is None:
-            return None
-
-        if self.slots[index] == value:
-            return index
-
         return self.__find_loop(index, value)
 
     def __find_loop(self, index, value):
+        if self.slots[index] == value:
+            return index
+
         next_index = index + 1
 
         if next_index >= self.size:

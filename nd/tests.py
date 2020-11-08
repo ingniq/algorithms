@@ -100,6 +100,13 @@ class TestNativeDictionaryMethods(unittest.TestCase):
         index = nd.find(value)
         self.assertIsNone(index)
 
+        # обновление значения для существующего ключа
+        nd.put("string3", "string3")
+        index = nd.find("string3")
+        value = nd.get("string3")
+        self.assertEqual(2, index)
+        self.assertEqual("string3", value)
+
     def test_get(self):
         size = 17
         nd = NativeDictionary(size)
@@ -177,22 +184,28 @@ class TestNativeDictionaryMethods(unittest.TestCase):
             "gnirts",
             "string1",
             "string2",
-            "string3"
+            "string3",
+            "string 3"
             ]
 
         for v in keys:
             nd.put(v, str(randrange(nd.size)))
 
-        self.assertFalse(nd.is_key("test string"))
-
         # без коллизий
         self.assertTrue(nd.is_key(keys[0]))
         self.assertTrue(nd.is_key(keys[2]))
         self.assertTrue(nd.is_key(keys[3]))
+        self.assertTrue(nd.is_key(keys[5]))
+
+        nd.slots[5] = "string 23"
+        self.assertTrue(nd.is_key("string 23"))
 
         # с учетом коллизий
         self.assertTrue(nd.is_key(keys[1]))
         self.assertTrue(nd.is_key(keys[4]))
+
+        # отсутствует
+        self.assertFalse(nd.is_key("test string"))
 
         # не строка
         self.assertFalse(nd.is_key(123))
