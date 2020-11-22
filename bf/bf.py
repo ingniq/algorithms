@@ -6,6 +6,7 @@ class BloomFilter:
     def __init__(self, f_len):
         self.filter_len = f_len
         self.filter = bitarray(f_len)
+        self.filter.setall(0)
 
     def hash1(self, str1):
         RAND_CONST = 17
