@@ -7,6 +7,7 @@ class TestPowerSetMethods(unittest.TestCase):
         VALUES = [
             "test1",
             "test2",
+            "",
         ]
 
         ps = PowerSet()
@@ -18,16 +19,20 @@ class TestPowerSetMethods(unittest.TestCase):
         ps.put(VALUES[1])
         self.assertEqual(ps.size(), 2)
 
+        ps.put(VALUES[2])
+        self.assertEqual(ps.size(), 3)
+
         for n in range(3, 12):
             ps.put("test" + str(n))
 
-        self.assertEqual(ps.size(), 11)
+        self.assertEqual(ps.size(), 12)
 
     def test_put(self):
         VALUES = [
             "test1",
             "test2",
             "test1",
+            "",
         ]
         ps = PowerSet()
         self.assertEqual(ps.size(), 0)
@@ -35,31 +40,40 @@ class TestPowerSetMethods(unittest.TestCase):
         # добавление отсутствующего элемента
         ps.put(VALUES[0])
         ps.put(VALUES[1])
-        self.assertEqual(ps.size(), 2)
+        ps.put(VALUES[3])
+        self.assertEqual(ps.size(), 3)
 
         # добавление присутствующего элемента
         ps.put(VALUES[2])
-        self.assertEqual(ps.size(), 2)
+        self.assertEqual(ps.size(), 3)
+        ps.put(VALUES[3])
+        self.assertEqual(ps.size(), 3)
 
     def test_get(self):
         VALUES = [
             "test1",
             "test2",
+            "",
         ]
         ps = PowerSet()
 
         ps.put(VALUES[0])
         ps.put(VALUES[1])
+        ps.put(VALUES[2])
 
         # существующие элементы
         self.assertTrue(ps.get(VALUES[0]))
         self.assertTrue(ps.get(VALUES[1]))
+        self.assertTrue(ps.get(VALUES[2]))
 
         index = ps.find(VALUES[0])
         self.assertIn(VALUES[0], ps._slots[index])
 
         index = ps.find(VALUES[1])
         self.assertIn(VALUES[1], ps._slots[index])
+
+        index = ps.find(VALUES[2])
+        self.assertIn(VALUES[2], ps._slots[index])
 
         # отсутствующий элемент
         self.assertFalse(ps.get("test3"))
@@ -71,33 +85,36 @@ class TestPowerSetMethods(unittest.TestCase):
         VALUES = [
             "test1",
             "test2",
+            "",
         ]
         ps = PowerSet()
 
         ps.put(VALUES[0])
         ps.put(VALUES[1])
-        self.assertEqual(ps.size(), 2)
+        ps.put(VALUES[2])
+        self.assertEqual(ps.size(), 3)
 
-        index = ps.find(VALUES[0])
-        self.assertIn(VALUES[0], ps._slots[index])
-
-        index = ps.find(VALUES[1])
-        self.assertIn(VALUES[1], ps._slots[index])
+        self.assertTrue(ps.get(VALUES[0]))
+        self.assertTrue(ps.get(VALUES[1]))
+        self.assertTrue(ps.get(VALUES[2]))
 
         # удаление отсутствующего элемента
         ps.remove("test3")
-        self.assertEqual(ps.size(), 2)
+        self.assertEqual(ps.size(), 3)
 
         # удаление существующего элемента
         ps.remove(VALUES[0])
-        self.assertEqual(ps.size(), 1)
-
-        index = ps.find(VALUES[0])
-        self.assertIsNone(index)
+        self.assertEqual(ps.size(), 2)
+        self.assertFalse(ps.get(VALUES[0]))
 
         # удаление отсутствующего элемента
         ps.remove(VALUES[0])
+        self.assertEqual(ps.size(), 2)
+
+        # удаление элемента с пустой строкой
+        ps.remove(VALUES[2])
         self.assertEqual(ps.size(), 1)
+        self.assertFalse(ps.get(VALUES[2]))
 
     def test_intersection(self):
         ps1 = PowerSet()
@@ -125,34 +142,29 @@ class TestPowerSetMethods(unittest.TestCase):
         res = ps1.intersection(ps2)
         self.assertEqual(res.size(), 5)
 
-        index = res.find("test4")
-        self.assertIsNone(index)
+        self.assertFalse(res.get("test4"))
 
         for n in range(5, 10):
-            index = res.find("test" + str(n))
-            self.assertIn("test" + str(n), res._slots[index])
+            self.assertTrue(res.get("test" + str(n)))
 
-        index = res.find("test10")
-        self.assertIsNone(index)
+        self.assertFalse(res.get("test10"))
 
         res = ps2.intersection(ps3)
         self.assertEqual(res.size(), 5)
 
-        index = res.find("test9")
-        self.assertIsNone(index)
+        self.assertFalse(res.get("test9"))
 
         for n in range(10, 15):
-            index = res.find("test" + str(n))
-            self.assertIn("test" + str(n), res._slots[index])
+            self.assertTrue(res.get("test" + str(n)))
 
-        index = res.find("test15")
-        self.assertIsNone(index)
+        self.assertFalse(res.get("test15"))
 
     def test_union(self):
         ps1 = PowerSet()
         ps2 = PowerSet()
         ps3 = PowerSet()
         ps4 = PowerSet()
+        ps5 = PowerSet()
 
         for n in range(0, 10):
             ps1.put("test" + str(n))
@@ -167,6 +179,7 @@ class TestPowerSetMethods(unittest.TestCase):
         self.assertEqual(ps2.size(), 10)
         self.assertEqual(ps3.size(), 0)
         self.assertEqual(ps4.size(), 15)
+        self.assertEqual(ps5.size(), 0)
 
         # оба параметра непустые
         res = ps1.union(ps2)
@@ -177,8 +190,7 @@ class TestPowerSetMethods(unittest.TestCase):
         for n in range(0, 15):
             self.assertTrue(res.get("test" + str(n)))
 
-        index = res.find("test15")
-        self.assertIsNone(index)
+        self.assertFalse(res.get("test15"))
 
         res = ps1.union(ps4)
         self.assertEqual(res.size(), 25)
@@ -192,8 +204,7 @@ class TestPowerSetMethods(unittest.TestCase):
         for n in range(15, 30):
             self.assertTrue(res.get("test" + str(n)))
 
-        index = res.find("test30")
-        self.assertIsNone(index)
+        self.assertFalse(res.get("test30"))
 
         res = ps4.union(ps1)
         self.assertEqual(res.size(), 25)
@@ -207,8 +218,7 @@ class TestPowerSetMethods(unittest.TestCase):
         for n in range(15, 30):
             self.assertTrue(res.get("test" + str(n)))
 
-        index = res.find("test30")
-        self.assertIsNone(index)
+        self.assertFalse(res.get("test30"))
 
         # один из параметров -- пустое множество
         res = ps1.union(ps3)
@@ -217,8 +227,7 @@ class TestPowerSetMethods(unittest.TestCase):
         for n in range(0, 10):
             self.assertTrue(res.get("test" + str(n)))
 
-        index = res.find("test10")
-        self.assertIsNone(index)
+        self.assertFalse(res.get("test10"))
 
         res = ps3.union(ps1)
         self.assertEqual(res.size(), 10)
@@ -226,8 +235,13 @@ class TestPowerSetMethods(unittest.TestCase):
         for n in range(0, 10):
             self.assertTrue(res.get("test" + str(n)))
 
-        index = res.find("test10")
-        self.assertIsNone(index)
+        self.assertFalse(res.get("test10"))
+
+        # оба множества -- пустые
+        res = ps3.union(ps5)
+        self.assertEqual(res.size(), 0)
+        res = ps5.union(ps3)
+        self.assertEqual(res.size(), 0)
 
     def test_difference(self):
         ps1 = PowerSet()
@@ -256,38 +270,32 @@ class TestPowerSetMethods(unittest.TestCase):
         self.assertEqual(res.size(), 10)
 
         for n in range(0, 10):
-            index = res.find("test" + str(n))
-            self.assertIn("test" + str(n), res._slots[index])
+            self.assertTrue(res.get("test" + str(n)))
 
-        index = res.find("test10")
-        self.assertIsNone(index)
+        self.assertFalse(res.get("test10"))
 
         # в результате пустое множество
         res = ps1.difference(ps4)
         self.assertEqual(res.size(), 0)
 
         # в результате не пустое множество
-        res1 = ps1.difference(ps2)
-        self.assertEqual(res1.size(), 5)
+        res = ps1.difference(ps2)
+        self.assertEqual(res.size(), 5)
 
         for n in range(0, 5):
-            index = res1.find("test" + str(n))
-            self.assertIn("test" + str(n), res1._slots[index])
+            self.assertTrue(res.get("test" + str(n)))
 
         for n in range(5, 10):
-            index = res1.find("test" + str(n))
-            self.assertIsNone(index)
+            self.assertFalse(res.get("test" + str(n)))
 
-        res2 = ps2.difference(ps1)
-        self.assertEqual(res2.size(), 5)
+        res = ps2.difference(ps1)
+        self.assertEqual(res.size(), 5)
 
         for n in range(10, 15):
-            index = res2.find("test" + str(n))
-            self.assertIn("test" + str(n), res2._slots[index])
+            self.assertTrue(res.get("test" + str(n)))
 
         for n in range(5, 10):
-            index = res2.find("test" + str(n))
-            self.assertIsNone(index)
+            self.assertFalse(res.get("test" + str(n)))
 
     def test_issubset(self):
         ps1 = PowerSet()
@@ -363,18 +371,18 @@ class TestPowerSetMethods(unittest.TestCase):
         end = timer()
         print("created 19900: " + str(timedelta(seconds=end-start)))
 
-        print("Loop 10100: ", timedelta(seconds=timer()))
+        print("Loop 21100: ", timedelta(seconds=timer()))
         start = timer()
-        for n in range(0, 10000):
+        for n in range(0, 21000):
             ps2.put(self.get_random_string(randrange(10, 150)))
 
         for val in values:
             ps2.put(val)
         end = timer()
-        print("created 10100: " + str(timedelta(seconds=end-start)))
+        print("created 21100: " + str(timedelta(seconds=end-start)))
 
         self.assertEqual(ps1.size(), 19900)
-        self.assertEqual(ps2.size(), 10100)
+        self.assertEqual(ps2.size(), 21100)
 
         # put
         start = timer()
