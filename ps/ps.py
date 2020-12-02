@@ -183,21 +183,19 @@ class PowerSet(HashTable):
             values = iterate._slots[slot_index]
 
             for val in values:
-                if target.find(val) is None:
-                    result.put(val)
+                result.put(val)
 
         return result
 
     def difference(self, set2):
         # разница текущего множества и set2
         result = PowerSet()
-        target, iterate = [self, set2] if self.size() > set2.size() else [set2, self]
 
-        for slot_index in iterate._populate:
-            values = iterate._slots[slot_index]
+        for slot_index in self._populate:
+            values = self._slots[slot_index]
 
             for val in values:
-                if target.find(val) is None:
+                if set2.find(val) is None:
                     result.put(val)
 
         return result

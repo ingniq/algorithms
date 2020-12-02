@@ -134,9 +134,9 @@ class TestPowerSetMethods(unittest.TestCase):
         self.assertEqual(ps2.size(), 10)
         self.assertEqual(ps3.size(), 10)
 
-        # нет результата
+        # в результате пустое множество
         res = ps1.intersection(ps3)
-        self.assertIsNone(res)
+        self.assertEqual(res.size(), 0)
 
         # в результате не пустое множество
         res = ps1.intersection(ps2)
@@ -183,6 +183,8 @@ class TestPowerSetMethods(unittest.TestCase):
 
         # оба параметра непустые
         res = ps1.union(ps2)
+        self.assertNotEqual(res, ps1)
+        self.assertNotEqual(res, ps2)
         self.assertEqual(res.size(), 15)
 
         for n in range(0, 15):
@@ -220,16 +222,26 @@ class TestPowerSetMethods(unittest.TestCase):
 
         # один из параметров -- пустое множество
         res = ps1.union(ps3)
-        self.assertIsNone(res)
+        self.assertEqual(res.size(), 10)
+
+        for n in range(0, 10):
+            self.assertTrue(res.get("test" + str(n)))
+
+        self.assertFalse(res.get("test10"))
 
         res = ps3.union(ps1)
-        self.assertIsNone(res)
+        self.assertEqual(res.size(), 10)
+
+        for n in range(0, 10):
+            self.assertTrue(res.get("test" + str(n)))
+
+        self.assertFalse(res.get("test10"))
 
         # оба множества -- пустые
         res = ps3.union(ps5)
-        self.assertIsNone(res)
+        self.assertEqual(res.size(), 0)
         res = ps5.union(ps3)
-        self.assertIsNone(res)
+        self.assertEqual(res.size(), 0)
 
     def test_difference(self):
         ps1 = PowerSet()
@@ -253,7 +265,7 @@ class TestPowerSetMethods(unittest.TestCase):
         self.assertEqual(ps2.size(), 10)
         self.assertEqual(ps3.size(), 10)
 
-        # в результате множество не изменяется
+        # все элементы текущего множества не входят в множество-параметр
         res = ps1.difference(ps3)
         self.assertEqual(res.size(), 10)
 
@@ -262,9 +274,9 @@ class TestPowerSetMethods(unittest.TestCase):
 
         self.assertFalse(res.get("test10"))
 
-        # нет результата
+        # в результате пустое множество
         res = ps1.difference(ps4)
-        self.assertIsNone(res)
+        self.assertEqual(res.size(), 0)
 
         # в результате не пустое множество
         res = ps1.difference(ps2)
