@@ -176,9 +176,9 @@ class PowerSet(HashTable):
         if set2.size() == 0:
             return None
 
-        from copy import copy
+        from copy import deepcopy
         target, iterate = [self, set2] if self.size() > set2.size() else [set2, self]
-        result = copy(target)
+        result = deepcopy(target)
 
         for slot_index in iterate._populate:
             values = iterate._slots[slot_index]
