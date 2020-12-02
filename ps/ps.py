@@ -156,6 +156,9 @@ class PowerSet(HashTable):
 
     def intersection(self, set2):
         # пересечение текущего множества и set2
+        if set2.size() == 0:
+            return None
+
         result = PowerSet()
         target, iterate = [self, set2] if self.size() > set2.size() else [set2, self]
 
@@ -166,12 +169,14 @@ class PowerSet(HashTable):
                 if target.find(val) is not None:
                     result.put(val)
 
-        return result
+        return result if result.size() != 0 else None
 
     def union(self, set2):
-        from copy import copy
-
         # объединение текущего множества и set2
+        if set2.size() == 0:
+            return None
+
+        from copy import copy
         target, iterate = [self, set2] if self.size() > set2.size() else [set2, self]
         result = copy(target)
 
@@ -182,10 +187,13 @@ class PowerSet(HashTable):
                 if target.find(val) is None:
                     result.put(val)
 
-        return result
+        return result if result.size() != target.size() else None
 
     def difference(self, set2):
         # разница текущего множества и set2
+        if set2.size() == 0:
+            return None
+
         result = PowerSet()
         target, iterate = [self, set2] if self.size() > set2.size() else [set2, self]
 
@@ -196,7 +204,7 @@ class PowerSet(HashTable):
                 if target.find(val) is None:
                     result.put(val)
 
-        return result
+        return result if result.size() != 0 else None
 
     def issubset(self, set2):
         # возвращает True, если set2 есть
