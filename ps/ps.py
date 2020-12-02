@@ -155,10 +155,6 @@ class PowerSet(HashTable):
         return False
 
     def intersection(self, set2):
-        # пересечение текущего множества и set2
-        if set2.size() == 0:
-            return None
-
         result = PowerSet()
         target, iterate = [self, set2] if self.size() > set2.size() else [set2, self]
 
@@ -169,7 +165,7 @@ class PowerSet(HashTable):
                 if target.find(val) is not None:
                     result.put(val)
 
-        return result if result.size() != 0 else None
+        return result
 
     def union(self, set2):
         # объединение текущего множества и set2
