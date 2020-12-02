@@ -204,10 +204,6 @@ class PowerSet(HashTable):
         # возвращает True, если set2 есть
         # подмножество текущего множества,
         # иначе False
-
-        if set2.size() == 0:
-            return False
-
         for slot_index in set2._populate:
             values = set2._slots[slot_index]
 
