@@ -1,15 +1,15 @@
 class NativeDictionary:
     def __init__(self, sz):
-        self._size = sz
-        self._slots = [None] * self._size
-        self._values = [None] * self._size
+        self.size = sz
+        self.slots = [None] * self.size
+        self.values = [None] * self.size
 
     def __hash_fun(self, key: str):
         # в качестве value поступают строки!
         if not isinstance(key, str):
             return None
 
-        return sum(key.encode("utf-8")) % self._size
+        return sum(key.encode("utf-8")) % self.size
 
     def _seek_slot(self, value: str):
         if not isinstance(value, str):
@@ -33,8 +33,8 @@ class NativeDictionary:
             key_index = self._seek_slot(key)
 
         if key_index is not None:
-            self._slots[key_index] = key
-            self._values[key_index] = value
+            self.slots[key_index] = key
+            self.values[key_index] = value
 
     def get(self, key):
         # возвращает value для key,
@@ -45,7 +45,7 @@ class NativeDictionary:
 
         key_index = self.find(key)
 
-        return None if key_index is None else self._values[key_index]
+        return None if key_index is None else self.values[key_index]
 
     def find(self, key: str):
         if not isinstance(key, str):
@@ -56,33 +56,33 @@ class NativeDictionary:
         return self._find_loop(index, key)
 
     def _find_loop(self, index, value):
-        if self._slots[index] == value:
+        if self.slots[index] == value:
             return index
 
         next_index = index + 1
 
-        if next_index >= self._size:
-            next_index -= self._size
+        if next_index >= self.size:
+            next_index -= self.size
 
         while next_index != index:
-            if self._slots[next_index] == value:
+            if self.slots[next_index] == value:
                 return next_index
 
             next_index += 1
 
-            if next_index >= self._size:
-                next_index -= self._size
+            if next_index >= self.size:
+                next_index -= self.size
 
         return None
 
 
 class NativeCache(NativeDictionary):
     def __init__(self, sz: int):
-        self.__len = 0
-        self._hits = [0] * sz
-        self._min_hits = [0, 1]  # индексы элементов с минимальным кол-м обращений
+        self.hits = [0] * sz
         self.collisions = 0
         self.debug = 0
+        self._min_hits = [0, 1]  # индексы элементов с минимальным кол-м обращений
+        self.__len = 0
         super(NativeCache, self).__init__(sz)
 
     def get(self, key: str):
@@ -94,12 +94,12 @@ class NativeCache(NativeDictionary):
 
         if key_index is not None:
             # если найден, то увеличиваем кол-во обращений
-            self._hits[key_index] += 1
+            self.hits[key_index] += 1
 
             # обновляем указатели на элементы с наименьшим кол-ом обращений
-            hits = self._hits[key_index]
-            min_hits_1 = self._hits[self._min_hits[0]]
-            min_hits_2 = self._hits[self._min_hits[1]]
+            hits = self.hits[key_index]
+            min_hits_1 = self.hits[self._min_hits[0]]
+            min_hits_2 = self.hits[self._min_hits[1]]
 
             if key_index not in self._min_hits:
                 if min_hits_1 >= hits:
@@ -115,7 +115,7 @@ class NativeCache(NativeDictionary):
                 self._min_hits = [self._min_hits[1], self._min_hits[0]]
 
         # возвращаем значение
-        return None if key_index is None else self._values[key_index]
+        return None if key_index is None else self.values[key_index]
 
     def put(self, key: str, value: str):
         if not isinstance(key, str):
@@ -126,23 +126,23 @@ class NativeCache(NativeDictionary):
 
         # если не найден, то добавляем
         if key_index is None:
-            if self.__len == self._size:
+            if self.__len == self.size:
                 # если массив заполнен, то берем элемент с наименьшим кол-ом обращений
                 key_index = self._min_hits[0]
-                self._hits[key_index] = 0
+                self.hits[key_index] = 0
             else:
                 # иначе берем первый пустой элемент
                 key_index = self._seek_slot(key)
                 self.__len += 1
 
         # добавляем/обновляем
-        self._slots[key_index] = key
-        self._values[key_index] = value
+        self.slots[key_index] = key
+        self.values[key_index] = value
 
         # обновляем указатели на элементы с наименьшим кол-ом обращений
-        hits = self._hits[key_index]
-        min_hits_1 = self._hits[self._min_hits[0]]
-        min_hits_2 = self._hits[self._min_hits[1]]
+        hits = self.hits[key_index]
+        min_hits_1 = self.hits[self._min_hits[0]]
+        min_hits_2 = self.hits[self._min_hits[1]]
 
         if key_index not in self._min_hits:
             if min_hits_1 > hits:
@@ -169,9 +169,9 @@ class NativeCache(NativeDictionary):
             return None
 
         # удаление
-        self._slots[key_index] = None
-        self._values[key_index] = None
-        self._hits[key_index] = 0
+        self.slots[key_index] = None
+        self.values[key_index] = None
+        self.hits[key_index] = 0
         self._min_hits[0] = key_index
         self.__len -= 1
 
@@ -183,23 +183,23 @@ class NativeCache(NativeDictionary):
 
     def _find_loop(self, index, value):
         # Смотрим элемент с вычисленным индексом-хэшем.
-        if self._slots[index] == value:
+        if self.slots[index] == value:
             return index
 
         if value is None:
             self.collisions += 1
 
         # Смотрим элемент с наименьшим кол-м обращений в случае поиска значения.
-        if value and self._slots[self._min_hits[0]] == value:
+        if value and self.slots[self._min_hits[0]] == value:
             return self._min_hits[0]
 
         return super(NativeCache, self)._find_loop(index, value)
 
     def __find_min_hits_index(self):
         min_hits_index = self._min_hits[1]
-        min_hits = self._hits[min_hits_index]
+        min_hits = self.hits[min_hits_index]
 
-        for i, hits in enumerate(self._hits):
+        for i, hits in enumerate(self.hits):
             if i in self._min_hits:
                 continue
 

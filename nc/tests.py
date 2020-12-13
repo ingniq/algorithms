@@ -13,7 +13,7 @@ class TestNativeCacheMethods(unittest.TestCase):
         self.assertEqual(663, index)
         # указатель на элемент с минимальным кол-м обращений не изменяется
         self.assertEqual(0, nc._min_hits[0])
-        self.assertEqual(0, nc._hits[nc._min_hits[0]])
+        self.assertEqual(0, nc.hits[nc._min_hits[0]])
 
         # колллизия
         nc.put("gnirts", str(randrange(size)))
@@ -21,21 +21,21 @@ class TestNativeCacheMethods(unittest.TestCase):
         self.assertEqual(664, index)
         # указатель на элемент с минимальным кол-м обращений не изменяется
         self.assertEqual(0, nc._min_hits[0])
-        self.assertEqual(0, nc._hits[nc._min_hits[0]])
+        self.assertEqual(0, nc.hits[nc._min_hits[0]])
 
         nc.put("string1", str(randrange(size)))
         index = nc.find("string1")
         self.assertEqual(712, index)
         # указатель на элемент с минимальным кол-м обращений не изменяется
         self.assertEqual(0, nc._min_hits[0])
-        self.assertEqual(0, nc._hits[nc._min_hits[0]])
+        self.assertEqual(0, nc.hits[nc._min_hits[0]])
 
         nc.put("string2", str(randrange(size)))
         index = nc.find("string2")
         self.assertEqual(713, index)
         # указатель на элемент с минимальным кол-м обращений не изменяется
         self.assertEqual(0, nc._min_hits[0])
-        self.assertEqual(0, nc._hits[nc._min_hits[0]])
+        self.assertEqual(0, nc.hits[nc._min_hits[0]])
 
         # колллизия
         nc.put("string3", str(randrange(size)))
@@ -43,21 +43,21 @@ class TestNativeCacheMethods(unittest.TestCase):
         self.assertEqual(714, index)
         # указатель на элемент с минимальным кол-м обращений не изменяется
         self.assertEqual(0, nc._min_hits[0])
-        self.assertEqual(0, nc._hits[nc._min_hits[0]])
+        self.assertEqual(0, nc.hits[nc._min_hits[0]])
 
         # обновление значения для существующего ключа
         nc.put("string3", "string31")
         index = nc.find("string3")
 
-        self.assertEqual(0, nc._hits[index])
+        self.assertEqual(0, nc.hits[index])
         value = nc.get("string3")
         self.assertEqual(714, index)
         self.assertEqual("string31", value)
         # указатель на элемент с минимальным кол-м обращений не изменяется
         self.assertEqual(0, nc._min_hits[0])
-        self.assertEqual(0, nc._hits[nc._min_hits[0]])
+        self.assertEqual(0, nc.hits[nc._min_hits[0]])
         # кол-во обращений к текущему элементу увеличилось на 1
-        self.assertEqual(1, nc._hits[index])
+        self.assertEqual(1, nc.hits[index])
 
         n = 15
         while n:
@@ -65,7 +65,7 @@ class TestNativeCacheMethods(unittest.TestCase):
             n -= 1
 
         # кол-во обращений к текущему элементу увеличилось на 15
-        self.assertEqual(16, nc._hits[index])
+        self.assertEqual(16, nc.hits[index])
 
     def test_get(self):
         size = 1000
@@ -129,7 +129,7 @@ class TestNativeCacheMethods(unittest.TestCase):
         # кол-во обращений к текущему элементу 0
         index = nc.find("string")
         self.assertEqual(663, index)
-        self.assertEqual(0, nc._hits[index])
+        self.assertEqual(0, nc.hits[index])
 
         n = 10
         while n:
@@ -137,11 +137,11 @@ class TestNativeCacheMethods(unittest.TestCase):
             n -= 1
 
         # кол-во обращений к текущему элементу увеличилось на 10
-        self.assertEqual(10, nc._hits[index])
+        self.assertEqual(10, nc.hits[index])
 
         nc.remove(keys[0])
         # кол-во обращений по текущему индексу обнулилось
-        self.assertEqual(0, nc._hits[index])
+        self.assertEqual(0, nc.hits[index])
 
         index = nc.find("string")
         self.assertIsNone(index)
@@ -170,14 +170,14 @@ class TestNativeCacheMethods(unittest.TestCase):
         nc.put("testing", "testing")
         new_item_index = nc.find("testing")
         self.assertTrue(index == new_item_index)
-        self.assertTrue(nc._hits[index] == 0)
+        self.assertTrue(nc.hits[index] == 0)
 
         # Удаление элемента и обнуление кол-ва запросов для этого элемента
         index = nc._min_hits[0]
         nc.remove("testing")
         new_item_index = nc.find("testing")
         self.assertIsNone(new_item_index)
-        self.assertTrue(nc._hits[index] == 0)
+        self.assertTrue(nc.hits[index] == 0)
 
         # Сбор статистики: количество операций поиска, коллизий.
         debug.collisions = nc.collisions
@@ -206,10 +206,10 @@ class TestNativeCacheMethods(unittest.TestCase):
             i -= 1
 
             # Проверка корректности выбора минимального значения.
-            n = nc._hits[nc._min_hits[0]] - 1
+            n = nc.hits[nc._min_hits[0]] - 1
             if n > 0:
                 while n:
-                    self.assertFalse(n in nc._hits)
+                    self.assertFalse(n in nc.hits)
                     n -= 1
 
         print("Number of find operations:", debug.number_of_finds)  # min -- 9, max -- 27, avg -- 15
