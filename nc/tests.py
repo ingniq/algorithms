@@ -159,7 +159,7 @@ class TestNativeCacheMethods(unittest.TestCase):
 
         self.assertEqual(1000, nc.len())
 
-        # Эмуляция количества обращений к элементам
+        # Эмуляция обращений к элементам
         n = 10000
         while n:
             nc.get("string" + str(randrange(size + 1)))
@@ -196,7 +196,7 @@ class TestNativeCacheMethods(unittest.TestCase):
 
             self.assertEqual(1000, nc.len())
 
-            # Эмуляция количества обращений к элементам
+            # Эмуляция обращений к элементам
             n = 10000
             while n:
                 nc.get("string" + str(randrange(size)))
