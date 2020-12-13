@@ -212,7 +212,7 @@ class TestNativeCacheMethods(unittest.TestCase):
                     self.assertFalse(n in nc._hits)
                     n -= 1
 
-        print("Number of find operations:", debug.number_of_finds)  # min -- 9, max -- 27, avg - 15
+        print("Number of find operations:", debug.number_of_finds)  # min -- 9, max -- 27, avg -- 15
 
 
 class NativeCacheDebugger:
