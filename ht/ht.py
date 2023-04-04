@@ -30,10 +30,10 @@ class HashTable:
         if not isinstance(value, str):
             return None
 
-        exist = self.find(value)
+        slot_index = self.find(value)
 
-        if exist is not None:
-            return exist
+        if slot_index is not None:
+            return slot_index
 
         slot_index = self.seek_slot(value)
 

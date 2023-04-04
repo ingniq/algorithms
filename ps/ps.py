@@ -98,10 +98,10 @@ class HashTable:
         if not isinstance(value, str):
             return None
 
-        exist = self.find(value)
+        slot_index = self.find(value)
 
-        if exist is not None:
-            return exist
+        if slot_index is not None:
+            return slot_index
 
         slot_index = self.hash_fun(value)
 
@@ -141,14 +141,14 @@ class PowerSet(HashTable):
     def remove(self, value):
         # возвращает True если value удалено
         # иначе False
-        index = self.find(value)
+        slot_index = self.find(value)
 
-        if index is not None:
-            self._slots[index].remove(value)
-            self._populate.remove(index)
+        if slot_index is not None:
+            self._slots[slot_index].remove(value)
+            self._populate.remove(slot_index)
 
-            if len(self._slots[index]) == 0:
-                self._slots.insert(index, None)
+            if len(self._slots[slot_index]) == 0:
+                self._slots.insert(slot_index, None)
 
             return True
 
@@ -156,7 +156,7 @@ class PowerSet(HashTable):
 
     def intersection(self, set2):
         # пересечение текущего множества и set2
-        result = PowerSet()
+        intersection = PowerSet()
         target, iterate = [self, set2] if self.size() > set2.size() else [set2, self]
 
         for slot_index in iterate._populate:
@@ -164,41 +164,41 @@ class PowerSet(HashTable):
 
             for val in values:
                 if target.find(val) is not None:
-                    result.put(val)
+                    intersection.put(val)
 
-        return result
+        return intersection
 
     def union(self, set2):
         # объединение текущего множества и set2
-        result = PowerSet()
+        union = PowerSet()
         target, iterate = [self, set2] if self.size() > set2.size() else [set2, self]
 
         for slot_index in target._populate:
             values = target._slots[slot_index]
 
             for val in values:
-                result.put(val)
+                union.put(val)
 
         for slot_index in iterate._populate:
             values = iterate._slots[slot_index]
 
             for val in values:
-                result.put(val)
+                union.put(val)
 
-        return result
+        return union
 
     def difference(self, set2):
         # разница текущего множества и set2
-        result = PowerSet()
+        difference = PowerSet()
 
         for slot_index in self._populate:
             values = self._slots[slot_index]
 
             for val in values:
                 if set2.find(val) is None:
-                    result.put(val)
+                    difference.put(val)
 
-        return result
+        return difference
 
     def issubset(self, set2):
         # возвращает True, если set2 есть

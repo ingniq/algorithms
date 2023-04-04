@@ -7,18 +7,18 @@ class Stack:
 
     def pop(self):
         """Восемь операций сложностью O(1). Девятая - возврат значения."""
-        result = None
+        tail_value = None
         node = self.stack.tail
 
         if node is not None:
-            result = node.value
+            tail_value = node.value
 
             node._prev._next = node._next
             node._next._prev = node._prev
             node._next = None
             node._prev = None
 
-        return result
+        return tail_value
 
     def push(self, value):
         """Четыре операции сложностью O(1) (искл. создание экземпляра Node)."""
@@ -122,15 +122,15 @@ class LinkedList2(BaseLinkedList2):
         return None
 
     def find_all(self, val=None):
-        result = []
+        nodes_found = []
         node = self._head._next
 
         while isinstance(node, Node):
             if node.value == val or val is None:
-                result.append(node)
+                nodes_found.append(node)
             node = node._next
 
-        return result
+        return nodes_found
 
     def delete(self, val, all=False):
         if not isinstance(self._head._next, Node) or not self.find(val):
@@ -182,9 +182,9 @@ class LinkedList2(BaseLinkedList2):
         self._head._next = newNode
 
     def clean(self):
-        nodes = self.find_all()
+        all_stack_nodes = self.find_all()
 
-        for node in nodes:
+        for node in all_stack_nodes:
             node._next = None
             node._prev = None
 
@@ -192,9 +192,9 @@ class LinkedList2(BaseLinkedList2):
         self._tail._prev = self._head
 
     def len(self):
-        nodes = self.find_all()
+        all_stack_nodes = self.find_all()
 
-        return len(nodes)
+        return len(all_stack_nodes)
 
     def _validate_node(self, node):
         """Argument must be a Node instance."""
