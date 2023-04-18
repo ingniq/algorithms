@@ -3,6 +3,10 @@ class HashTable:
         self.size = sz
         self.step = stp
         self.slots = [None] * self.size
+        
+    @classmethod
+    def create_by_parameters(cls, *, size, step):
+        return cls(size, step)
 
     def hash_fun(self, value: str):
         # в качестве value поступают строки!
