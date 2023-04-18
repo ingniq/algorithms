@@ -5,7 +5,7 @@ class NativeDictionary:
         self.values = [None] * self.size
         
     @classmethod
-    def from_size(cls, *, size):
+    def from_size(cls, size):
         return cls(size)
 
     def hash_fun(self, key: str):
