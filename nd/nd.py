@@ -3,6 +3,10 @@ class NativeDictionary:
         self.size = sz
         self.slots = [None] * self.size
         self.values = [None] * self.size
+        
+    @classmethod
+    def from_size(cls, *, size):
+        return cls(size)
 
     def hash_fun(self, key: str):
         # в качестве value поступают строки!
