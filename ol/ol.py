@@ -83,7 +83,6 @@ class OrderedList(BaseOrderedList):
             return self.EQUAL
 
     def add(self, value):
-        newNode = Node(value)
         in_head = False
 
         if self.head is None:
@@ -92,7 +91,8 @@ class OrderedList(BaseOrderedList):
             in_head = True
         elif not self.__ascending and self.compare(value, self.head.value) in [self.GREATER, self.EQUAL]:
             in_head = True
-
+            
+        newNode = Node(value)
         # insert in the head or in an empty list
         if in_head:
             newNode._prev = self._head
@@ -100,6 +100,8 @@ class OrderedList(BaseOrderedList):
             self._head._next._prev = newNode
             self._head._next = newNode
             return
+        
+        del in_head
 
         in_tail = False
 
@@ -115,6 +117,8 @@ class OrderedList(BaseOrderedList):
             self.tail._next = newNode
             self._tail._prev = newNode
             return
+        
+        del in_tail
 
         if self.__ascending:
             find_condition = self.GREATER
