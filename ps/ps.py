@@ -20,7 +20,10 @@ class DynArray:
 
         return self.array[i]
 
-    def resize(self, new_capacity):
+    def resize(self, new_capacity: int):
+        if not isinstance(new_capacity, int):
+            raise ValueError('The parameter must be an integer')
+        
         new_array = self.make_array(new_capacity)
 
         for i in range(self.count):
@@ -36,8 +39,11 @@ class DynArray:
         self.array[self.count] = itm
         self.count += 1
 
-    def insert(self, i, itm):
+    def insert(self, i: int, itm):
         """Добавляем объект itm в позицию i, начиная с 0."""
+        if not isinstance(i, int):
+            raise ValueError('The parameter must be an integer')
+
         if i < 0:
             raise IndexError('Index is out of bounds')
 
@@ -53,8 +59,11 @@ class DynArray:
         self.count += 1
         return
 
-    def delete(self, i):
+    def delete(self, i: int):
         """Удаляем объект в позиции i."""
+        if not isinstance(i, int):
+            raise ValueError('The parameter must be an integer')
+
         if i >= 0 and self.count == 0:
             raise BufferError('Buffer is empty')
 
@@ -138,9 +147,12 @@ class PowerSet(HashTable):
 
         return False
 
-    def remove(self, value):
+    def remove(self, value: str):
         # возвращает True если value удалено
         # иначе False
+        if not isinstance(value, str):
+            raise ValueError('The parameter must be a string')
+
         slot_index = self.find(value)
 
         if slot_index is not None:
@@ -154,8 +166,11 @@ class PowerSet(HashTable):
 
         return False
 
-    def intersection(self, set2):
+    def intersection(self, set2: PowerSet):
         # пересечение текущего множества и set2
+        if not isinstance(set2, PowerSet):
+            raise ValueError('The parameter must be a PowerSet')
+
         intersection = PowerSet()
         target, iterate = [self, set2] if self.size() > set2.size() else [set2, self]
 
@@ -168,8 +183,11 @@ class PowerSet(HashTable):
 
         return intersection
 
-    def union(self, set2):
+    def union(self, set2: PowerSet):
         # объединение текущего множества и set2
+        if not isinstance(set2, PowerSet):
+            raise ValueError('The parameter must be a PowerSet')
+
         union = PowerSet()
         target, iterate = [self, set2] if self.size() > set2.size() else [set2, self]
 
@@ -187,8 +205,11 @@ class PowerSet(HashTable):
 
         return union
 
-    def difference(self, set2):
+    def difference(self, set2: PowerSet):
         # разница текущего множества и set2
+        if not isinstance(set2, PowerSet):
+            raise ValueError('The parameter must be a PowerSet')
+
         difference = PowerSet()
 
         for slot_index in self._populate:
@@ -200,10 +221,13 @@ class PowerSet(HashTable):
 
         return difference
 
-    def issubset(self, set2):
+    def issubset(self, set2: PowerSet):
         # возвращает True, если set2 есть
         # подмножество текущего множества,
         # иначе False
+        if not isinstance(set2, PowerSet):
+            raise ValueError('The parameter must be a PowerSet')
+
         for slot_index in set2._populate:
             values = set2._slots[slot_index]
 
