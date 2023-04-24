@@ -1,5 +1,8 @@
 class NativeDictionary:
-    def __init__(self, sz):
+    def __init__(self, sz: int):
+        if not isinstance(sz, int):
+            raise ValueError('The parameter must be an integer')
+
         self.size = sz
         self.slots = [None] * self.size
         self.values = [None] * self.size
@@ -78,6 +81,9 @@ class NativeDictionary:
 
 class NativeCache(NativeDictionary):
     def __init__(self, sz: int):
+        if not isinstance(sz, int):
+            raise ValueError('The parameter must be an integer')
+
         self.hits = [0] * sz
         self.collisions = 0
         self.debug = 0
