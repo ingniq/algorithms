@@ -99,29 +99,32 @@ class NativeCache(NativeDictionary):
         key_index = self.find(key)
 
         if key_index is not None:
-            # если найден, то увеличиваем кол-во обращений
-            self.hits[key_index] += 1
-
-            # обновляем указатели на элементы с наименьшим кол-ом обращений
-            hits = self.hits[key_index]
-            min_hits_1 = self.hits[self._min_hits[0]]
-            min_hits_2 = self.hits[self._min_hits[1]]
-
-            if key_index not in self._min_hits:
-                if min_hits_1 >= hits:
-                    self._min_hits[0] = key_index
-                elif min_hits_2 >= hits:
-                    self._min_hits[1] = key_index
-
-            if key_index == self._min_hits[1]:
-                self.debug += 1
-                self._min_hits[1] = self.__find_min_hits_index()
-
-            if min_hits_2 < min_hits_1:
-                self._min_hits = [self._min_hits[1], self._min_hits[0]]
+            self.__update_hits(key_index)
 
         # возвращаем значение
         return None if key_index is None else self.values[key_index]
+
+    def __update_hits(self, key_index: int) -> void:
+        # если найден, то увеличиваем кол-во обращений
+        self.hits[key_index] += 1
+
+        # обновляем указатели на элементы с наименьшим кол-ом обращений
+        hits = self.hits[key_index]
+        min_hits_1 = self.hits[self._min_hits[0]]
+        min_hits_2 = self.hits[self._min_hits[1]]
+
+        if key_index not in self._min_hits:
+            if min_hits_1 >= hits:
+                self._min_hits[0] = key_index
+            elif min_hits_2 >= hits:
+                self._min_hits[1] = key_index
+
+        if key_index == self._min_hits[1]:
+            self.debug += 1
+            self._min_hits[1] = self.__find_min_hits_index()
+
+        if min_hits_2 < min_hits_1:
+            self._min_hits = [self._min_hits[1], self._min_hits[0]]        
 
     def put(self, key: str, value: str):
         if not isinstance(key, str):

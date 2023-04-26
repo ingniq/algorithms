@@ -22,12 +22,7 @@ class NativeDictionary:
         if not isinstance(key, str):
             return False
 
-        index = self.find(key)
-
-        if index is not None:
-            return True
-
-        return False
+        return True if self.find(key) else False
 
     def seek_slot(self, value: str):
         if not isinstance(value, str):

@@ -50,10 +50,10 @@ class LinkedList:
         return result
 
     def delete(self, val, all=False):
-        node = self.head
-
-        if not node or not self.find(val):
+        if not self.head or not self.find(val):
             return
+
+        node = self.head
 
         if node.value == val:
             self.head = node.next
