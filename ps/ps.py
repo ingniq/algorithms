@@ -23,7 +23,7 @@ class DynArray:
     def resize(self, new_capacity: int):
         if not isinstance(new_capacity, int):
             raise ValueError('The parameter must be an integer')
-        
+
         new_array = self.make_array(new_capacity)
 
         for i in range(self.count):
@@ -172,6 +172,7 @@ class PowerSet(HashTable):
             raise ValueError('The parameter must be a PowerSet')
 
         intersection = PowerSet()
+        # В качестве того множества, которое будем обходить, выбираем меньшее.
         target, iterate = [self, set2] if self.size() > set2.size() else [set2, self]
 
         for slot_index in iterate._populate:
@@ -189,6 +190,7 @@ class PowerSet(HashTable):
             raise ValueError('The parameter must be a PowerSet')
 
         union = PowerSet()
+        # В качестве того множества, которое будем обходить, выбираем меньшее.
         target, iterate = [self, set2] if self.size() > set2.size() else [set2, self]
 
         for slot_index in target._populate:

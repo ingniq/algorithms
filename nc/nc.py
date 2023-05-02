@@ -86,7 +86,7 @@ class NativeCache(NativeDictionary):
 
         self.hits = [0] * sz
         self.collisions = 0
-        self.debug = 0
+        self.debug = 0  # Для служебной информации (В частности количество операций поиска элемента с минимальным кол-ом обращений).
         self._min_hits = [0, 1]  # индексы элементов с минимальным кол-м обращений
         self.__len = 0
         super(NativeCache, self).__init__(sz)
@@ -124,7 +124,7 @@ class NativeCache(NativeDictionary):
             self._min_hits[1] = self.__find_min_hits_index()
 
         if min_hits_2 < min_hits_1:
-            self._min_hits = [self._min_hits[1], self._min_hits[0]]        
+            self._min_hits = [self._min_hits[1], self._min_hits[0]]
 
     def put(self, key: str, value: str):
         if not isinstance(key, str):
