@@ -202,7 +202,7 @@ class TestNativeCacheMethods(unittest.TestCase):
                 nc.get("string" + str(randrange(size)))
                 n -= 1
 
-            debug.number_of_finds.append(nc.debug)
+            debug.number_of_finds.append(nc.number_of_find_operations)
             i -= 1
 
             # Проверка корректности выбора минимального значения.
