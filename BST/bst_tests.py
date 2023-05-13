@@ -73,6 +73,14 @@ class TestBSTMethods(unittest.TestCase):
         self.assertEqual(bst.Root.LeftChild.RightChild.LeftChild.NodeKey, 5)
         self.assertEqual(bst.Root.LeftChild.RightChild.RightChild.NodeKey, 7)
 
+        self.assertEqual(bst.Root.LeftChild.Parent.NodeKey, 8)
+        self.assertEqual(bst.Root.LeftChild.LeftChild.Parent.NodeKey, 4)
+        self.assertEqual(bst.Root.LeftChild.RightChild.Parent.NodeKey, 4)
+        self.assertEqual(bst.Root.LeftChild.LeftChild.LeftChild.Parent.NodeKey, 2)
+        self.assertEqual(bst.Root.LeftChild.LeftChild.RightChild.Parent.NodeKey, 2)
+        self.assertEqual(bst.Root.LeftChild.RightChild.LeftChild.Parent.NodeKey, 6)
+        self.assertEqual(bst.Root.LeftChild.RightChild.RightChild.Parent.NodeKey, 6)
+
 
         self.assertIsNone(bst.Root.LeftChild.LeftChild.LeftChild.LeftChild)
         self.assertIsNone(bst.Root.LeftChild.LeftChild.LeftChild.RightChild)
@@ -92,6 +100,14 @@ class TestBSTMethods(unittest.TestCase):
         self.assertEqual(bst.Root.RightChild.RightChild.LeftChild.NodeKey, 13)
         self.assertEqual(bst.Root.RightChild.RightChild.RightChild.NodeKey, 15)
 
+        self.assertEqual(bst.Root.RightChild.Parent.NodeKey, 8)
+        self.assertEqual(bst.Root.RightChild.LeftChild.Parent.NodeKey, 12)
+        self.assertEqual(bst.Root.RightChild.RightChild.Parent.NodeKey, 12)
+        self.assertEqual(bst.Root.RightChild.LeftChild.LeftChild.Parent.NodeKey, 10)
+        self.assertEqual(bst.Root.RightChild.LeftChild.RightChild.Parent.NodeKey, 10)
+        self.assertEqual(bst.Root.RightChild.RightChild.LeftChild.Parent.NodeKey, 14)
+        self.assertEqual(bst.Root.RightChild.RightChild.RightChild.Parent.NodeKey, 14)
+
         self.assertIsNone(bst.Root.RightChild.LeftChild.LeftChild.LeftChild)
         self.assertIsNone(bst.Root.RightChild.LeftChild.LeftChild.RightChild)
         self.assertIsNone(bst.Root.RightChild.LeftChild.RightChild.RightChild)
@@ -104,6 +120,7 @@ class TestBSTMethods(unittest.TestCase):
         # Adding a node to the right
         bst.AddKeyValue(20, 20)
         self.assertEqual(bst.Root.RightChild.RightChild.RightChild.RightChild.NodeKey, 20)
+        self.assertEqual(bst.Root.RightChild.RightChild.RightChild.RightChild.Parent.NodeKey, 15)
 
         #        8
         #       / \
@@ -235,13 +252,24 @@ class TestBSTMethods(unittest.TestCase):
         self.assertEqual(parent.RightChild.NodeKey, 17)
         self.assertEqual(right_child.LeftChild.NodeKey, 18)
 
-        #        8
+        # delete root
+        found_node = bst.FindNodeByKey(8)
+        self.assertTrue(found_node.NodeHasKey)
+        self.assertTrue(bst.DeleteNodeByKey(8))
+        self.assertIsNone(bst.Root.Parent)
+        self.assertEqual(bst.Root.LeftChild.NodeKey, 4)
+        self.assertEqual(bst.Root.RightChild.NodeKey, 13)
+        self.assertEqual(bst.Root.LeftChild.Parent.NodeKey, bst.Root.NodeKey)
+        self.assertEqual(bst.Root.RightChild.Parent.NodeKey, bst.Root.NodeKey)
+
+
+        #        9
         #       / \
         #      4  13
         #     / | |  \
         #   2   6 10  14
-        #  /|  /| |     \
-        # 1 3 5 7 9      17
+        #  /|  /|       \
+        # 1 3 5 7        17
         #                  \
         #                   20
         #                  /  \
@@ -249,7 +277,7 @@ class TestBSTMethods(unittest.TestCase):
 
 
         # check all tree
-        self.assertEqual(bst.Root.NodeKey, 8)
+        self.assertEqual(bst.Root.NodeKey, 9)
         # left branch
         self.assertEqual(bst.Root.LeftChild.NodeKey, 4)
         self.assertEqual(bst.Root.LeftChild.LeftChild.NodeKey, 2)
@@ -258,6 +286,14 @@ class TestBSTMethods(unittest.TestCase):
         self.assertEqual(bst.Root.LeftChild.LeftChild.RightChild.NodeKey, 3)
         self.assertEqual(bst.Root.LeftChild.RightChild.LeftChild.NodeKey, 5)
         self.assertEqual(bst.Root.LeftChild.RightChild.RightChild.NodeKey, 7)
+
+        self.assertEqual(bst.Root.LeftChild.RightChild.RightChild.Parent.NodeKey, 6)
+        self.assertEqual(bst.Root.LeftChild.RightChild.LeftChild.Parent.NodeKey, 6)
+        self.assertEqual(bst.Root.LeftChild.LeftChild.LeftChild.Parent.NodeKey, 2)
+        self.assertEqual(bst.Root.LeftChild.LeftChild.RightChild.Parent.NodeKey, 2)
+        self.assertEqual(bst.Root.LeftChild.RightChild.Parent.NodeKey, 4)
+        self.assertEqual(bst.Root.LeftChild.LeftChild.Parent.NodeKey, 4)
+        self.assertEqual(bst.Root.LeftChild.Parent.NodeKey, 9)
 
 
         self.assertIsNone(bst.Root.LeftChild.LeftChild.LeftChild.LeftChild)
@@ -273,21 +309,27 @@ class TestBSTMethods(unittest.TestCase):
         self.assertEqual(bst.Root.RightChild.NodeKey, 13)
         self.assertEqual(bst.Root.RightChild.LeftChild.NodeKey, 10)
         self.assertEqual(bst.Root.RightChild.RightChild.NodeKey, 14)
-        self.assertEqual(bst.Root.RightChild.LeftChild.LeftChild.NodeKey, 9)
         self.assertEqual(bst.Root.RightChild.RightChild.RightChild.NodeKey, 17)
         self.assertEqual(bst.Root.RightChild.RightChild.RightChild.RightChild.NodeKey, 20)
         self.assertEqual(bst.Root.RightChild.RightChild.RightChild.RightChild.LeftChild.NodeKey, 18)
         self.assertEqual(bst.Root.RightChild.RightChild.RightChild.RightChild.RightChild.NodeKey, 25)
 
+        self.assertEqual(bst.Root.RightChild.RightChild.RightChild.RightChild.RightChild.Parent.NodeKey, 20)
+        self.assertEqual(bst.Root.RightChild.RightChild.RightChild.RightChild.LeftChild.Parent.NodeKey, 20)
+        self.assertEqual(bst.Root.RightChild.RightChild.RightChild.RightChild.Parent.NodeKey, 17)
+        self.assertEqual(bst.Root.RightChild.RightChild.RightChild.Parent.NodeKey, 14)
+        self.assertEqual(bst.Root.RightChild.RightChild.Parent.NodeKey, 13)
+        self.assertEqual(bst.Root.RightChild.LeftChild.Parent.NodeKey, 13)
+        self.assertEqual(bst.Root.RightChild.Parent.NodeKey, 9)
+
+        self.assertIsNone(bst.Root.RightChild.LeftChild.LeftChild)
         self.assertIsNone(bst.Root.RightChild.LeftChild.RightChild)
         self.assertIsNone(bst.Root.RightChild.RightChild.LeftChild)
         self.assertIsNone(bst.Root.RightChild.RightChild.RightChild.LeftChild)
-        self.assertIsNone(bst.Root.RightChild.LeftChild.LeftChild.LeftChild)
-        self.assertIsNone(bst.Root.RightChild.LeftChild.LeftChild.RightChild)
         self.assertIsNone(bst.Root.RightChild.RightChild.RightChild.RightChild.RightChild.RightChild)
         self.assertIsNone(bst.Root.RightChild.RightChild.RightChild.RightChild.RightChild.LeftChild)
         self.assertIsNone(bst.Root.RightChild.RightChild.RightChild.RightChild.LeftChild.RightChild)
         self.assertIsNone(bst.Root.RightChild.RightChild.RightChild.RightChild.LeftChild.LeftChild)
 
         # Count
-        self.assertEqual(bst.Count(), 16)
+        self.assertEqual(bst.Count(), 15)

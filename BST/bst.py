@@ -97,10 +97,15 @@ class BST:
         if not to_delete or not to_delete.NodeHasKey:
             return False
 
+        is_root = (to_delete.Node == self.Root)
         parent = to_delete.Node.Parent
 
         # leaf
         if not to_delete.Node.LeftChild and not to_delete.Node.RightChild:
+            if is_root:
+                self.Root = None
+                return True
+
             if parent.LeftChild == to_delete.Node:
                 parent.LeftChild = None
             else:
@@ -110,6 +115,11 @@ class BST:
 
         # delete node with children (successor node is left child)
         if to_delete.Node.LeftChild and not to_delete.Node.RightChild:
+            if is_root:
+                self.Root = to_delete.Node.LeftChild
+                self.Root.Parent = None
+                return True
+
             if parent.LeftChild == to_delete.Node:
                 parent.LeftChild = to_delete.Node.LeftChild
             else:
@@ -121,19 +131,26 @@ class BST:
         if to_delete.Node.RightChild:
             successor_node = self.FinMinMax(to_delete.Node.RightChild, False)
 
-            if parent.LeftChild == to_delete.Node:
+            if is_root:
+                self.Root = successor_node
+            elif parent.LeftChild == to_delete.Node:
                 parent.LeftChild = successor_node
             else:
                 parent.RightChild = successor_node
 
             if successor_node.RightChild and successor_node != to_delete.Node.RightChild:
                 successor_node.Parent.LeftChild = successor_node.RightChild
-                successor_node.RightChild.Parent = parent
+                successor_node.RightChild.Parent = successor_node.Parent
             else:
                 successor_node.Parent.LeftChild = None
 
             successor_node.RightChild = to_delete.Node.RightChild
             successor_node.LeftChild = to_delete.Node.LeftChild
+            successor_node.RightChild.Parent = successor_node
+
+            if successor_node.LeftChild:
+                successor_node.LeftChild.Parent = successor_node
+
             successor_node.Parent = parent
             to_delete.Node.Parent = None
 
