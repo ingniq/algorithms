@@ -3,124 +3,28 @@ from bst import BST, BSTNode
 
 
 class TestBSTMethods(unittest.TestCase):
-    def test_methods(self):
-        # create binary search tree
-        root_node = BSTNode(8, 8, None)
-        bst = BST(root_node)
-        self.assertEqual(bst.Root, root_node)
-        self.assertEqual(bst.Root.NodeKey, 8)
-        self.assertEqual(bst.Root.NodeValue, 8)
-        self.assertIsNone(bst.Root.Parent)
 
-        bst = BST(None)
-        self.assertIsNone(bst.Root)
+    def __init__(self, methodName: str = "runTest") -> None:
+        self.bst = BST(None)
+        super().__init__(methodName)
 
-        bst.Root = root_node
-
-        # AddKeyValue
-        self.assertIsNone(bst.Root.LeftChild)
-        self.assertIsNone(bst.Root.RightChild)
-
-        # Adding a node to the left
-        self.assertTrue(bst.AddKeyValue(4, 4))
-        self.assertEqual(bst.Root.LeftChild.NodeKey, 4)
-        self.assertIsNone(bst.Root.RightChild)
-
-        # Adding a node to the left
-        self.assertTrue(bst.AddKeyValue(2, 2))
-        self.assertEqual(bst.Root.LeftChild.NodeKey, 4)
-        self.assertIsNone(bst.Root.RightChild)
-        self.assertEqual(bst.Root.LeftChild.LeftChild.NodeKey, 2)
-        self.assertIsNone(bst.Root.LeftChild.RightChild)
-
-        # Adding a node with an existing key. The tree does not change.
-        self.assertFalse(bst.AddKeyValue(2, 2))
-        self.assertEqual(bst.Root.LeftChild.NodeKey, 4)
-        self.assertIsNone(bst.Root.RightChild)
-        self.assertEqual(bst.Root.LeftChild.LeftChild.NodeKey, 2)
-        self.assertIsNone(bst.Root.LeftChild.RightChild)
-
-        # Adding a node to the right
-        bst.AddKeyValue(12, 12)
-        self.assertEqual(bst.Root.LeftChild.NodeKey, 4)
-        self.assertEqual(bst.Root.RightChild.NodeKey, 12)
-
-        # Adding a node to the right
-        bst.AddKeyValue(6, 6)
-        self.assertEqual(bst.Root.LeftChild.NodeKey, 4)
-        self.assertEqual(bst.Root.RightChild.NodeKey, 12)
-        self.assertEqual(bst.Root.LeftChild.LeftChild.NodeKey, 2)
-        self.assertEqual(bst.Root.LeftChild.RightChild.NodeKey, 6)
-
-        bst.AddKeyValue(1, 1)
-        bst.AddKeyValue(3, 3)
-        bst.AddKeyValue(5, 5)
-        bst.AddKeyValue(7, 7)
-        bst.AddKeyValue(10, 10)
-        bst.AddKeyValue(14, 14)
-        bst.AddKeyValue(9, 9)
-        bst.AddKeyValue(11, 11)
-        bst.AddKeyValue(13, 13)
-        bst.AddKeyValue(15, 15)
-
-        self.assertEqual(bst.Root.NodeKey, 8)
-        # left branch
-        self.assertEqual(bst.Root.LeftChild.NodeKey, 4)
-        self.assertEqual(bst.Root.LeftChild.LeftChild.NodeKey, 2)
-        self.assertEqual(bst.Root.LeftChild.RightChild.NodeKey, 6)
-        self.assertEqual(bst.Root.LeftChild.LeftChild.LeftChild.NodeKey, 1)
-        self.assertEqual(bst.Root.LeftChild.LeftChild.RightChild.NodeKey, 3)
-        self.assertEqual(bst.Root.LeftChild.RightChild.LeftChild.NodeKey, 5)
-        self.assertEqual(bst.Root.LeftChild.RightChild.RightChild.NodeKey, 7)
-
-        self.assertEqual(bst.Root.LeftChild.Parent.NodeKey, 8)
-        self.assertEqual(bst.Root.LeftChild.LeftChild.Parent.NodeKey, 4)
-        self.assertEqual(bst.Root.LeftChild.RightChild.Parent.NodeKey, 4)
-        self.assertEqual(bst.Root.LeftChild.LeftChild.LeftChild.Parent.NodeKey, 2)
-        self.assertEqual(bst.Root.LeftChild.LeftChild.RightChild.Parent.NodeKey, 2)
-        self.assertEqual(bst.Root.LeftChild.RightChild.LeftChild.Parent.NodeKey, 6)
-        self.assertEqual(bst.Root.LeftChild.RightChild.RightChild.Parent.NodeKey, 6)
-
-
-        self.assertIsNone(bst.Root.LeftChild.LeftChild.LeftChild.LeftChild)
-        self.assertIsNone(bst.Root.LeftChild.LeftChild.LeftChild.RightChild)
-        self.assertIsNone(bst.Root.LeftChild.LeftChild.RightChild.RightChild)
-        self.assertIsNone(bst.Root.LeftChild.LeftChild.RightChild.LeftChild)
-        self.assertIsNone(bst.Root.LeftChild.RightChild.LeftChild.LeftChild)
-        self.assertIsNone(bst.Root.LeftChild.RightChild.LeftChild.RightChild)
-        self.assertIsNone(bst.Root.LeftChild.RightChild.RightChild.LeftChild)
-        self.assertIsNone(bst.Root.LeftChild.RightChild.RightChild.RightChild)
-
-        # right branch
-        self.assertEqual(bst.Root.RightChild.NodeKey, 12)
-        self.assertEqual(bst.Root.RightChild.LeftChild.NodeKey, 10)
-        self.assertEqual(bst.Root.RightChild.RightChild.NodeKey, 14)
-        self.assertEqual(bst.Root.RightChild.LeftChild.LeftChild.NodeKey, 9)
-        self.assertEqual(bst.Root.RightChild.LeftChild.RightChild.NodeKey, 11)
-        self.assertEqual(bst.Root.RightChild.RightChild.LeftChild.NodeKey, 13)
-        self.assertEqual(bst.Root.RightChild.RightChild.RightChild.NodeKey, 15)
-
-        self.assertEqual(bst.Root.RightChild.Parent.NodeKey, 8)
-        self.assertEqual(bst.Root.RightChild.LeftChild.Parent.NodeKey, 12)
-        self.assertEqual(bst.Root.RightChild.RightChild.Parent.NodeKey, 12)
-        self.assertEqual(bst.Root.RightChild.LeftChild.LeftChild.Parent.NodeKey, 10)
-        self.assertEqual(bst.Root.RightChild.LeftChild.RightChild.Parent.NodeKey, 10)
-        self.assertEqual(bst.Root.RightChild.RightChild.LeftChild.Parent.NodeKey, 14)
-        self.assertEqual(bst.Root.RightChild.RightChild.RightChild.Parent.NodeKey, 14)
-
-        self.assertIsNone(bst.Root.RightChild.LeftChild.LeftChild.LeftChild)
-        self.assertIsNone(bst.Root.RightChild.LeftChild.LeftChild.RightChild)
-        self.assertIsNone(bst.Root.RightChild.LeftChild.RightChild.RightChild)
-        self.assertIsNone(bst.Root.RightChild.LeftChild.RightChild.LeftChild)
-        self.assertIsNone(bst.Root.RightChild.RightChild.LeftChild.LeftChild)
-        self.assertIsNone(bst.Root.RightChild.RightChild.LeftChild.RightChild)
-        self.assertIsNone(bst.Root.RightChild.RightChild.RightChild.LeftChild)
-        self.assertIsNone(bst.Root.RightChild.RightChild.RightChild.RightChild)
-
-        # Adding a node to the right
-        bst.AddKeyValue(20, 20)
-        self.assertEqual(bst.Root.RightChild.RightChild.RightChild.RightChild.NodeKey, 20)
-        self.assertEqual(bst.Root.RightChild.RightChild.RightChild.RightChild.Parent.NodeKey, 15)
+    def __create_default_BST(self):
+        self.bst.AddKeyValue(8, 8)
+        self.bst.AddKeyValue(4, 4)
+        self.bst.AddKeyValue(2, 2)
+        self.bst.AddKeyValue(12, 12)
+        self.bst.AddKeyValue(6, 6)
+        self.bst.AddKeyValue(1, 1)
+        self.bst.AddKeyValue(3, 3)
+        self.bst.AddKeyValue(5, 5)
+        self.bst.AddKeyValue(7, 7)
+        self.bst.AddKeyValue(10, 10)
+        self.bst.AddKeyValue(14, 14)
+        self.bst.AddKeyValue(9, 9)
+        self.bst.AddKeyValue(11, 11)
+        self.bst.AddKeyValue(13, 13)
+        self.bst.AddKeyValue(15, 15)
+        self.bst.AddKeyValue(20, 20)
 
         #        8
         #       / \
@@ -132,65 +36,222 @@ class TestBSTMethods(unittest.TestCase):
         #                   \
         #                   20
 
-        # FindNodeByKey
+    def test_create_BST(self):
+        # create binary search tree
+        root_node = BSTNode(8, 8, None)
+        bst = BST(root_node)
+        self.assertEqual(bst.Root, root_node)
+        self.assertEqual(bst.Root.NodeKey, 8)
+        self.assertEqual(bst.Root.NodeValue, 8)
+        self.assertIsNone(bst.Root.Parent)
+
+        bst = BST(None)
+
+        self.assertIsNone(bst.Root)
+        bst.AddKeyValue(8, 8)
+        self.assertIsNotNone(bst.Root)
+        self.assertEqual(bst.Root.NodeKey, 8)
+
+    def test_AddKeyValue(self):
+        self.bst.AddKeyValue(8, 8)
+        self.assertIsNone(self.bst.Root.LeftChild)
+        self.assertIsNone(self.bst.Root.RightChild)
+
+        # Adding a node to the left
+        self.assertTrue(self.bst.AddKeyValue(4, 4))
+        self.assertEqual(self.bst.Root.LeftChild.NodeKey, 4)
+        self.assertIsNone(self.bst.Root.RightChild)
+
+        # Adding a node to the left
+        self.assertTrue(self.bst.AddKeyValue(2, 2))
+        self.assertEqual(self.bst.Root.LeftChild.NodeKey, 4)
+        self.assertIsNone(self.bst.Root.RightChild)
+        self.assertEqual(self.bst.Root.LeftChild.LeftChild.NodeKey, 2)
+        self.assertIsNone(self.bst.Root.LeftChild.RightChild)
+
+        # Adding a node with an existing key. The tree does not change.
+        self.assertFalse(self.bst.AddKeyValue(2, 2))
+        self.assertEqual(self.bst.Root.LeftChild.NodeKey, 4)
+        self.assertIsNone(self.bst.Root.RightChild)
+        self.assertEqual(self.bst.Root.LeftChild.LeftChild.NodeKey, 2)
+        self.assertIsNone(self.bst.Root.LeftChild.RightChild)
+
+        # Adding a node to the right
+        self.bst.AddKeyValue(12, 12)
+        self.assertEqual(self.bst.Root.LeftChild.NodeKey, 4)
+        self.assertEqual(self.bst.Root.RightChild.NodeKey, 12)
+
+        # Adding a node to the right
+        self.bst.AddKeyValue(6, 6)
+        self.assertEqual(self.bst.Root.LeftChild.NodeKey, 4)
+        self.assertEqual(self.bst.Root.RightChild.NodeKey, 12)
+        self.assertEqual(self.bst.Root.LeftChild.LeftChild.NodeKey, 2)
+        self.assertEqual(self.bst.Root.LeftChild.RightChild.NodeKey, 6)
+
+        self.bst.AddKeyValue(1, 1)
+        self.bst.AddKeyValue(3, 3)
+        self.bst.AddKeyValue(5, 5)
+        self.bst.AddKeyValue(7, 7)
+        self.bst.AddKeyValue(10, 10)
+        self.bst.AddKeyValue(14, 14)
+        self.bst.AddKeyValue(9, 9)
+        self.bst.AddKeyValue(11, 11)
+        self.bst.AddKeyValue(13, 13)
+        self.bst.AddKeyValue(15, 15)
+
+        self.assertEqual(self.bst.Root.NodeKey, 8)
+        # left branch
+        self.assertEqual(self.bst.Root.LeftChild.NodeKey, 4)
+        self.assertEqual(self.bst.Root.LeftChild.LeftChild.NodeKey, 2)
+        self.assertEqual(self.bst.Root.LeftChild.RightChild.NodeKey, 6)
+        self.assertEqual(self.bst.Root.LeftChild.LeftChild.LeftChild.NodeKey, 1)
+        self.assertEqual(self.bst.Root.LeftChild.LeftChild.RightChild.NodeKey, 3)
+        self.assertEqual(self.bst.Root.LeftChild.RightChild.LeftChild.NodeKey, 5)
+        self.assertEqual(self.bst.Root.LeftChild.RightChild.RightChild.NodeKey, 7)
+
+        self.assertEqual(self.bst.Root.LeftChild.Parent.NodeKey, 8)
+        self.assertEqual(self.bst.Root.LeftChild.LeftChild.Parent.NodeKey, 4)
+        self.assertEqual(self.bst.Root.LeftChild.RightChild.Parent.NodeKey, 4)
+        self.assertEqual(self.bst.Root.LeftChild.LeftChild.LeftChild.Parent.NodeKey, 2)
+        self.assertEqual(self.bst.Root.LeftChild.LeftChild.RightChild.Parent.NodeKey, 2)
+        self.assertEqual(self.bst.Root.LeftChild.RightChild.LeftChild.Parent.NodeKey, 6)
+        self.assertEqual(self.bst.Root.LeftChild.RightChild.RightChild.Parent.NodeKey, 6)
+
+
+        self.assertIsNone(self.bst.Root.LeftChild.LeftChild.LeftChild.LeftChild)
+        self.assertIsNone(self.bst.Root.LeftChild.LeftChild.LeftChild.RightChild)
+        self.assertIsNone(self.bst.Root.LeftChild.LeftChild.RightChild.RightChild)
+        self.assertIsNone(self.bst.Root.LeftChild.LeftChild.RightChild.LeftChild)
+        self.assertIsNone(self.bst.Root.LeftChild.RightChild.LeftChild.LeftChild)
+        self.assertIsNone(self.bst.Root.LeftChild.RightChild.LeftChild.RightChild)
+        self.assertIsNone(self.bst.Root.LeftChild.RightChild.RightChild.LeftChild)
+        self.assertIsNone(self.bst.Root.LeftChild.RightChild.RightChild.RightChild)
+
+        # right branch
+        self.assertEqual(self.bst.Root.RightChild.NodeKey, 12)
+        self.assertEqual(self.bst.Root.RightChild.LeftChild.NodeKey, 10)
+        self.assertEqual(self.bst.Root.RightChild.RightChild.NodeKey, 14)
+        self.assertEqual(self.bst.Root.RightChild.LeftChild.LeftChild.NodeKey, 9)
+        self.assertEqual(self.bst.Root.RightChild.LeftChild.RightChild.NodeKey, 11)
+        self.assertEqual(self.bst.Root.RightChild.RightChild.LeftChild.NodeKey, 13)
+        self.assertEqual(self.bst.Root.RightChild.RightChild.RightChild.NodeKey, 15)
+
+        self.assertEqual(self.bst.Root.RightChild.Parent.NodeKey, 8)
+        self.assertEqual(self.bst.Root.RightChild.LeftChild.Parent.NodeKey, 12)
+        self.assertEqual(self.bst.Root.RightChild.RightChild.Parent.NodeKey, 12)
+        self.assertEqual(self.bst.Root.RightChild.LeftChild.LeftChild.Parent.NodeKey, 10)
+        self.assertEqual(self.bst.Root.RightChild.LeftChild.RightChild.Parent.NodeKey, 10)
+        self.assertEqual(self.bst.Root.RightChild.RightChild.LeftChild.Parent.NodeKey, 14)
+        self.assertEqual(self.bst.Root.RightChild.RightChild.RightChild.Parent.NodeKey, 14)
+
+        self.assertIsNone(self.bst.Root.RightChild.LeftChild.LeftChild.LeftChild)
+        self.assertIsNone(self.bst.Root.RightChild.LeftChild.LeftChild.RightChild)
+        self.assertIsNone(self.bst.Root.RightChild.LeftChild.RightChild.RightChild)
+        self.assertIsNone(self.bst.Root.RightChild.LeftChild.RightChild.LeftChild)
+        self.assertIsNone(self.bst.Root.RightChild.RightChild.LeftChild.LeftChild)
+        self.assertIsNone(self.bst.Root.RightChild.RightChild.LeftChild.RightChild)
+        self.assertIsNone(self.bst.Root.RightChild.RightChild.RightChild.LeftChild)
+        self.assertIsNone(self.bst.Root.RightChild.RightChild.RightChild.RightChild)
+
+        # Adding a node to the right
+        self.bst.AddKeyValue(20, 20)
+        self.assertEqual(self.bst.Root.RightChild.RightChild.RightChild.RightChild.NodeKey, 20)
+        self.assertEqual(self.bst.Root.RightChild.RightChild.RightChild.RightChild.Parent.NodeKey, 15)
+
+        #        8
+        #       / \
+        #      4  12
+        #     / | |   \
+        #   2   6 10    14
+        #  /|  /| | \   | \
+        # 1 3 5 7 9 11 13 15
+        #                   \
+        #                   20
+
+    def test_FindNodeByKey(self):
+        # empty tree
+        found = self.bst.FindNodeByKey(8)
+        self.assertIsNone(found.Node)
+        self.assertFalse(found.NodeHasKey)
+        self.assertFalse(found.ToLeft)
+
+        self.__create_default_BST()
+
         # node found
-        found = bst.FindNodeByKey(8)
+        found = self.bst.FindNodeByKey(8)
         self.assertTrue(found.NodeHasKey)
         self.assertEqual(found.Node.NodeKey, 8)
         self.assertFalse(found.ToLeft)
 
         # node found
-        found = bst.FindNodeByKey(10)
+        found = self.bst.FindNodeByKey(10)
         self.assertTrue(found.NodeHasKey)
         self.assertEqual(found.Node.NodeKey, 10)
         self.assertFalse(found.ToLeft)
 
         # node not found (inserting to left)
-        found = bst.FindNodeByKey(17)
+        found = self.bst.FindNodeByKey(17)
         self.assertFalse(found.NodeHasKey)
         self.assertEqual(found.Node.NodeKey, 20)
         self.assertTrue(found.ToLeft)
 
         # node not found (inserting to right)
-        found = bst.FindNodeByKey(21)
+        found = self.bst.FindNodeByKey(21)
         self.assertFalse(found.NodeHasKey)
         self.assertEqual(found.Node.NodeKey, 20)
         self.assertFalse(found.ToLeft)
 
         # node not found (inserting to left)
-        found = bst.FindNodeByKey(-5)
+        found = self.bst.FindNodeByKey(-5)
         self.assertFalse(found.NodeHasKey)
         self.assertEqual(found.Node.NodeKey, 1)
         self.assertTrue(found.ToLeft)
 
-        # FinMinMax
+    def test_FinMinMax(self):
+        # try search in empty tree from root
+        max_node = self.bst.FinMinMax(self.bst.Root, True)
+        min_node = self.bst.FinMinMax(self.bst.Root, False)
+        self.assertIsNone(max_node)
+        self.assertIsNone(min_node)
+
+        # try searching in an empty tree from a node that does not belong to the tree
+        node = BSTNode(8, 8, None)
+        max_node = self.bst.FinMinMax(node, True)
+        min_node = self.bst.FinMinMax(node, False)
+        self.assertIsNone(max_node)
+        self.assertIsNone(min_node)
+
+
+        self.__create_default_BST()
+
         # start from root
-        max_node = bst.FinMinMax(bst.Root, True)
+        max_node = self.bst.FinMinMax(self.bst.Root, True)
         self.assertEqual(max_node.NodeKey, 20)
 
-        min_node = bst.FinMinMax(bst.Root, False)
+        min_node = self.bst.FinMinMax(self.bst.Root, False)
         self.assertEqual(min_node.NodeKey, 1)
 
         # start from NOT root
-        from_node = bst.FindNodeByKey(12).Node
-        max_node = bst.FinMinMax(from_node, True)
+        from_node = self.bst.FindNodeByKey(12).Node
+        max_node = self.bst.FinMinMax(from_node, True)
         self.assertEqual(max_node.NodeKey, 20)
 
-        min_node = bst.FinMinMax(from_node, False)
+        min_node = self.bst.FinMinMax(from_node, False)
         self.assertEqual(min_node.NodeKey, 9)
 
         # start from leaf
-        max_node = bst.FinMinMax(max_node, True)
+        max_node = self.bst.FinMinMax(max_node, True)
         self.assertEqual(max_node.NodeKey, 20)
 
-        min_node = bst.FinMinMax(min_node, False)
+        min_node = self.bst.FinMinMax(min_node, False)
         self.assertEqual(min_node.NodeKey, 9)
 
-        # DeleteNodeByKey
+    def test_DeleteNodeByKey(self):
         # prepare tree
-        bst.AddKeyValue(17, 17)
-        bst.AddKeyValue(18, 18)
-        bst.AddKeyValue(25, 25)
+        self.__create_default_BST()
+        self.bst.AddKeyValue(17, 17)
+        self.bst.AddKeyValue(18, 18)
+        self.bst.AddKeyValue(25, 25)
 
         #        8
         #       / \
@@ -207,27 +268,27 @@ class TestBSTMethods(unittest.TestCase):
         #                   18
 
         # delete node (not found)
-        found_node = bst.FindNodeByKey(30)
+        found_node = self.bst.FindNodeByKey(30)
         self.assertFalse(found_node.NodeHasKey)
-        self.assertFalse(bst.DeleteNodeByKey(30))
+        self.assertFalse(self.bst.DeleteNodeByKey(30))
 
         # delete node with children (successor node is left child)
-        found_node = bst.FindNodeByKey(12)
+        found_node = self.bst.FindNodeByKey(12)
         self.assertTrue(found_node.NodeHasKey)
         parent = found_node.Node.Parent
         right_child = found_node.Node.RightChild
         self.assertEqual(parent.RightChild.NodeKey, 12)
         self.assertEqual(right_child.LeftChild.NodeKey, 13)
 
-        self.assertTrue(bst.DeleteNodeByKey(12))
+        self.assertTrue(self.bst.DeleteNodeByKey(12))
         self.assertEqual(parent.RightChild.NodeKey, 13)
         self.assertIsNone(right_child.LeftChild)
 
-        found_node = bst.FindNodeByKey(12)
+        found_node = self.bst.FindNodeByKey(12)
         self.assertFalse(found_node.NodeHasKey)
 
         # delete leaf
-        found_node = bst.FindNodeByKey(11)
+        found_node = self.bst.FindNodeByKey(11)
         self.assertTrue(found_node.NodeHasKey)
         self.assertIsNone(found_node.Node.LeftChild)
         self.assertIsNone(found_node.Node.RightChild)
@@ -235,11 +296,11 @@ class TestBSTMethods(unittest.TestCase):
         parent = found_node.Node.Parent
         self.assertEqual(parent.RightChild.NodeKey, 11)
 
-        self.assertTrue(bst.DeleteNodeByKey(11))
+        self.assertTrue(self.bst.DeleteNodeByKey(11))
         self.assertIsNone(parent.RightChild)
 
         # delete node with children (successor node is node with right child only)
-        found_node = bst.FindNodeByKey(15)
+        found_node = self.bst.FindNodeByKey(15)
         self.assertTrue(found_node.NodeHasKey)
         parent = found_node.Node.Parent
         right_child = found_node.Node.RightChild
@@ -248,19 +309,19 @@ class TestBSTMethods(unittest.TestCase):
         self.assertEqual(right_child.LeftChild.RightChild.NodeKey, 18)
         self.assertIsNone(right_child.LeftChild.LeftChild)
 
-        bst.DeleteNodeByKey(15)
+        self.bst.DeleteNodeByKey(15)
         self.assertEqual(parent.RightChild.NodeKey, 17)
         self.assertEqual(right_child.LeftChild.NodeKey, 18)
 
         # delete root
-        found_node = bst.FindNodeByKey(8)
+        found_node = self.bst.FindNodeByKey(8)
         self.assertTrue(found_node.NodeHasKey)
-        self.assertTrue(bst.DeleteNodeByKey(8))
-        self.assertIsNone(bst.Root.Parent)
-        self.assertEqual(bst.Root.LeftChild.NodeKey, 4)
-        self.assertEqual(bst.Root.RightChild.NodeKey, 13)
-        self.assertEqual(bst.Root.LeftChild.Parent.NodeKey, bst.Root.NodeKey)
-        self.assertEqual(bst.Root.RightChild.Parent.NodeKey, bst.Root.NodeKey)
+        self.assertTrue(self.bst.DeleteNodeByKey(8))
+        self.assertIsNone(self.bst.Root.Parent)
+        self.assertEqual(self.bst.Root.LeftChild.NodeKey, 4)
+        self.assertEqual(self.bst.Root.RightChild.NodeKey, 13)
+        self.assertEqual(self.bst.Root.LeftChild.Parent.NodeKey, self.bst.Root.NodeKey)
+        self.assertEqual(self.bst.Root.RightChild.Parent.NodeKey, self.bst.Root.NodeKey)
 
 
         #        9
@@ -275,61 +336,64 @@ class TestBSTMethods(unittest.TestCase):
         #                  /  \
         #                 18   25
 
-
         # check all tree
-        self.assertEqual(bst.Root.NodeKey, 9)
+        self.assertEqual(self.bst.Root.NodeKey, 9)
         # left branch
-        self.assertEqual(bst.Root.LeftChild.NodeKey, 4)
-        self.assertEqual(bst.Root.LeftChild.LeftChild.NodeKey, 2)
-        self.assertEqual(bst.Root.LeftChild.RightChild.NodeKey, 6)
-        self.assertEqual(bst.Root.LeftChild.LeftChild.LeftChild.NodeKey, 1)
-        self.assertEqual(bst.Root.LeftChild.LeftChild.RightChild.NodeKey, 3)
-        self.assertEqual(bst.Root.LeftChild.RightChild.LeftChild.NodeKey, 5)
-        self.assertEqual(bst.Root.LeftChild.RightChild.RightChild.NodeKey, 7)
+        self.assertEqual(self.bst.Root.LeftChild.NodeKey, 4)
+        self.assertEqual(self.bst.Root.LeftChild.LeftChild.NodeKey, 2)
+        self.assertEqual(self.bst.Root.LeftChild.RightChild.NodeKey, 6)
+        self.assertEqual(self.bst.Root.LeftChild.LeftChild.LeftChild.NodeKey, 1)
+        self.assertEqual(self.bst.Root.LeftChild.LeftChild.RightChild.NodeKey, 3)
+        self.assertEqual(self.bst.Root.LeftChild.RightChild.LeftChild.NodeKey, 5)
+        self.assertEqual(self.bst.Root.LeftChild.RightChild.RightChild.NodeKey, 7)
 
-        self.assertEqual(bst.Root.LeftChild.RightChild.RightChild.Parent.NodeKey, 6)
-        self.assertEqual(bst.Root.LeftChild.RightChild.LeftChild.Parent.NodeKey, 6)
-        self.assertEqual(bst.Root.LeftChild.LeftChild.LeftChild.Parent.NodeKey, 2)
-        self.assertEqual(bst.Root.LeftChild.LeftChild.RightChild.Parent.NodeKey, 2)
-        self.assertEqual(bst.Root.LeftChild.RightChild.Parent.NodeKey, 4)
-        self.assertEqual(bst.Root.LeftChild.LeftChild.Parent.NodeKey, 4)
-        self.assertEqual(bst.Root.LeftChild.Parent.NodeKey, 9)
+        self.assertEqual(self.bst.Root.LeftChild.RightChild.RightChild.Parent.NodeKey, 6)
+        self.assertEqual(self.bst.Root.LeftChild.RightChild.LeftChild.Parent.NodeKey, 6)
+        self.assertEqual(self.bst.Root.LeftChild.LeftChild.LeftChild.Parent.NodeKey, 2)
+        self.assertEqual(self.bst.Root.LeftChild.LeftChild.RightChild.Parent.NodeKey, 2)
+        self.assertEqual(self.bst.Root.LeftChild.RightChild.Parent.NodeKey, 4)
+        self.assertEqual(self.bst.Root.LeftChild.LeftChild.Parent.NodeKey, 4)
+        self.assertEqual(self.bst.Root.LeftChild.Parent.NodeKey, 9)
 
 
-        self.assertIsNone(bst.Root.LeftChild.LeftChild.LeftChild.LeftChild)
-        self.assertIsNone(bst.Root.LeftChild.LeftChild.LeftChild.RightChild)
-        self.assertIsNone(bst.Root.LeftChild.LeftChild.RightChild.RightChild)
-        self.assertIsNone(bst.Root.LeftChild.LeftChild.RightChild.LeftChild)
-        self.assertIsNone(bst.Root.LeftChild.RightChild.LeftChild.LeftChild)
-        self.assertIsNone(bst.Root.LeftChild.RightChild.LeftChild.RightChild)
-        self.assertIsNone(bst.Root.LeftChild.RightChild.RightChild.LeftChild)
-        self.assertIsNone(bst.Root.LeftChild.RightChild.RightChild.RightChild)
+        self.assertIsNone(self.bst.Root.LeftChild.LeftChild.LeftChild.LeftChild)
+        self.assertIsNone(self.bst.Root.LeftChild.LeftChild.LeftChild.RightChild)
+        self.assertIsNone(self.bst.Root.LeftChild.LeftChild.RightChild.RightChild)
+        self.assertIsNone(self.bst.Root.LeftChild.LeftChild.RightChild.LeftChild)
+        self.assertIsNone(self.bst.Root.LeftChild.RightChild.LeftChild.LeftChild)
+        self.assertIsNone(self.bst.Root.LeftChild.RightChild.LeftChild.RightChild)
+        self.assertIsNone(self.bst.Root.LeftChild.RightChild.RightChild.LeftChild)
+        self.assertIsNone(self.bst.Root.LeftChild.RightChild.RightChild.RightChild)
 
         # right branch
-        self.assertEqual(bst.Root.RightChild.NodeKey, 13)
-        self.assertEqual(bst.Root.RightChild.LeftChild.NodeKey, 10)
-        self.assertEqual(bst.Root.RightChild.RightChild.NodeKey, 14)
-        self.assertEqual(bst.Root.RightChild.RightChild.RightChild.NodeKey, 17)
-        self.assertEqual(bst.Root.RightChild.RightChild.RightChild.RightChild.NodeKey, 20)
-        self.assertEqual(bst.Root.RightChild.RightChild.RightChild.RightChild.LeftChild.NodeKey, 18)
-        self.assertEqual(bst.Root.RightChild.RightChild.RightChild.RightChild.RightChild.NodeKey, 25)
+        self.assertEqual(self.bst.Root.RightChild.NodeKey, 13)
+        self.assertEqual(self.bst.Root.RightChild.LeftChild.NodeKey, 10)
+        self.assertEqual(self.bst.Root.RightChild.RightChild.NodeKey, 14)
+        self.assertEqual(self.bst.Root.RightChild.RightChild.RightChild.NodeKey, 17)
+        self.assertEqual(self.bst.Root.RightChild.RightChild.RightChild.RightChild.NodeKey, 20)
+        self.assertEqual(self.bst.Root.RightChild.RightChild.RightChild.RightChild.LeftChild.NodeKey, 18)
+        self.assertEqual(self.bst.Root.RightChild.RightChild.RightChild.RightChild.RightChild.NodeKey, 25)
 
-        self.assertEqual(bst.Root.RightChild.RightChild.RightChild.RightChild.RightChild.Parent.NodeKey, 20)
-        self.assertEqual(bst.Root.RightChild.RightChild.RightChild.RightChild.LeftChild.Parent.NodeKey, 20)
-        self.assertEqual(bst.Root.RightChild.RightChild.RightChild.RightChild.Parent.NodeKey, 17)
-        self.assertEqual(bst.Root.RightChild.RightChild.RightChild.Parent.NodeKey, 14)
-        self.assertEqual(bst.Root.RightChild.RightChild.Parent.NodeKey, 13)
-        self.assertEqual(bst.Root.RightChild.LeftChild.Parent.NodeKey, 13)
-        self.assertEqual(bst.Root.RightChild.Parent.NodeKey, 9)
+        self.assertEqual(self.bst.Root.RightChild.RightChild.RightChild.RightChild.RightChild.Parent.NodeKey, 20)
+        self.assertEqual(self.bst.Root.RightChild.RightChild.RightChild.RightChild.LeftChild.Parent.NodeKey, 20)
+        self.assertEqual(self.bst.Root.RightChild.RightChild.RightChild.RightChild.Parent.NodeKey, 17)
+        self.assertEqual(self.bst.Root.RightChild.RightChild.RightChild.Parent.NodeKey, 14)
+        self.assertEqual(self.bst.Root.RightChild.RightChild.Parent.NodeKey, 13)
+        self.assertEqual(self.bst.Root.RightChild.LeftChild.Parent.NodeKey, 13)
+        self.assertEqual(self.bst.Root.RightChild.Parent.NodeKey, 9)
 
-        self.assertIsNone(bst.Root.RightChild.LeftChild.LeftChild)
-        self.assertIsNone(bst.Root.RightChild.LeftChild.RightChild)
-        self.assertIsNone(bst.Root.RightChild.RightChild.LeftChild)
-        self.assertIsNone(bst.Root.RightChild.RightChild.RightChild.LeftChild)
-        self.assertIsNone(bst.Root.RightChild.RightChild.RightChild.RightChild.RightChild.RightChild)
-        self.assertIsNone(bst.Root.RightChild.RightChild.RightChild.RightChild.RightChild.LeftChild)
-        self.assertIsNone(bst.Root.RightChild.RightChild.RightChild.RightChild.LeftChild.RightChild)
-        self.assertIsNone(bst.Root.RightChild.RightChild.RightChild.RightChild.LeftChild.LeftChild)
+        self.assertIsNone(self.bst.Root.RightChild.LeftChild.LeftChild)
+        self.assertIsNone(self.bst.Root.RightChild.LeftChild.RightChild)
+        self.assertIsNone(self.bst.Root.RightChild.RightChild.LeftChild)
+        self.assertIsNone(self.bst.Root.RightChild.RightChild.RightChild.LeftChild)
+        self.assertIsNone(self.bst.Root.RightChild.RightChild.RightChild.RightChild.RightChild.RightChild)
+        self.assertIsNone(self.bst.Root.RightChild.RightChild.RightChild.RightChild.RightChild.LeftChild)
+        self.assertIsNone(self.bst.Root.RightChild.RightChild.RightChild.RightChild.LeftChild.RightChild)
+        self.assertIsNone(self.bst.Root.RightChild.RightChild.RightChild.RightChild.LeftChild.LeftChild)
 
-        # Count
-        self.assertEqual(bst.Count(), 15)
+    def test_Count(self):
+        self.assertEqual(self.bst.Count(), 0)
+        self.bst.AddKeyValue(8, 8)
+        self.assertEqual(self.bst.Count(), 1)
+        self.__create_default_BST()
+        self.assertEqual(self.bst.Count(), 16)
