@@ -397,3 +397,212 @@ class TestBSTMethods(unittest.TestCase):
         self.assertEqual(self.bst.Count(), 1)
         self.__create_default_BST()
         self.assertEqual(self.bst.Count(), 16)
+
+    def test_WideAllNodes(self):
+        # empty
+        self.assertTupleEqual(self.bst.WideAllNodes(), tuple())
+
+        # one item
+        self.bst.AddKeyValue(8, 8)
+        self.assertTupleEqual(self.bst.WideAllNodes(), (self.bst.Root,))
+
+        self.__create_default_BST()
+
+        #        8
+        #       / \
+        #      4  12
+        #     / | |   \
+        #   2   6 10    14
+        #  /|  /| | \   | \
+        # 1 3 5 7 9 11 13 15
+        #                   \
+        #                   20
+
+        # many items
+        expected = (
+            self.bst.Root,
+            self.bst.Root.LeftChild,
+            self.bst.Root.RightChild,
+            self.bst.Root.LeftChild.LeftChild,
+            self.bst.Root.LeftChild.RightChild,
+            self.bst.Root.RightChild.LeftChild,
+            self.bst.Root.RightChild.RightChild,
+            self.bst.Root.LeftChild.LeftChild.LeftChild,
+            self.bst.Root.LeftChild.LeftChild.RightChild,
+            self.bst.Root.LeftChild.RightChild.LeftChild,
+            self.bst.Root.LeftChild.RightChild.RightChild,
+            self.bst.Root.RightChild.LeftChild.LeftChild,
+            self.bst.Root.RightChild.LeftChild.RightChild,
+            self.bst.Root.RightChild.RightChild.LeftChild,
+            self.bst.Root.RightChild.RightChild.RightChild,
+            self.bst.Root.RightChild.RightChild.RightChild.RightChild,
+        )
+        self.assertTupleEqual(self.bst.WideAllNodes(), expected)
+
+    def test_DeepAllNodes(self):
+        # empty
+        self.assertTupleEqual(self.bst.DeepAllNodes(BST.TRAVERSAL_IN_ORDER), tuple())
+
+        # one item
+        self.bst.AddKeyValue(8, 8)
+        self.assertTupleEqual(self.bst.DeepAllNodes(BST.TRAVERSAL_IN_ORDER), (self.bst.Root,))
+
+        self.__create_default_BST()
+
+        # in-order
+        expected = (
+            self.bst.Root.LeftChild.LeftChild.LeftChild,
+            self.bst.Root.LeftChild.LeftChild,
+            self.bst.Root.LeftChild.LeftChild.RightChild,
+            self.bst.Root.LeftChild,
+            self.bst.Root.LeftChild.RightChild.LeftChild,
+            self.bst.Root.LeftChild.RightChild,
+            self.bst.Root.LeftChild.RightChild.RightChild,
+            self.bst.Root,
+            self.bst.Root.RightChild.LeftChild.LeftChild,
+            self.bst.Root.RightChild.LeftChild,
+            self.bst.Root.RightChild.LeftChild.RightChild,
+            self.bst.Root.RightChild,
+            self.bst.Root.RightChild.RightChild.LeftChild,
+            self.bst.Root.RightChild.RightChild,
+            self.bst.Root.RightChild.RightChild.RightChild,
+            self.bst.Root.RightChild.RightChild.RightChild.RightChild,
+        )
+        self.assertTupleEqual(self.bst.DeepAllNodes(BST.TRAVERSAL_IN_ORDER), expected)
+
+        # post-order
+        expected = (
+            self.bst.Root.LeftChild.LeftChild.LeftChild,
+            self.bst.Root.LeftChild.LeftChild.RightChild,
+            self.bst.Root.LeftChild.LeftChild,
+            self.bst.Root.LeftChild.RightChild.LeftChild,
+            self.bst.Root.LeftChild.RightChild.RightChild,
+            self.bst.Root.LeftChild.RightChild,
+            self.bst.Root.LeftChild,
+            self.bst.Root.RightChild.LeftChild.LeftChild,
+            self.bst.Root.RightChild.LeftChild.RightChild,
+            self.bst.Root.RightChild.LeftChild,
+            self.bst.Root.RightChild.RightChild.LeftChild,
+            self.bst.Root.RightChild.RightChild.RightChild.RightChild,
+            self.bst.Root.RightChild.RightChild.RightChild,
+            self.bst.Root.RightChild.RightChild,
+            self.bst.Root.RightChild,
+            self.bst.Root,
+        )
+        self.assertTupleEqual(self.bst.DeepAllNodes(BST.TRAVERSAL_POST_ORDER), expected)
+
+        # pre-order
+        expected = (
+            self.bst.Root,
+            self.bst.Root.LeftChild,
+            self.bst.Root.LeftChild.LeftChild,
+            self.bst.Root.LeftChild.LeftChild.LeftChild,
+            self.bst.Root.LeftChild.LeftChild.RightChild,
+            self.bst.Root.LeftChild.RightChild,
+            self.bst.Root.LeftChild.RightChild.LeftChild,
+            self.bst.Root.LeftChild.RightChild.RightChild,
+            self.bst.Root.RightChild,
+            self.bst.Root.RightChild.LeftChild,
+            self.bst.Root.RightChild.LeftChild.LeftChild,
+            self.bst.Root.RightChild.LeftChild.RightChild,
+            self.bst.Root.RightChild.RightChild,
+            self.bst.Root.RightChild.RightChild.LeftChild,
+            self.bst.Root.RightChild.RightChild.RightChild,
+            self.bst.Root.RightChild.RightChild.RightChild.RightChild,
+        )
+        self.assertTupleEqual(self.bst.DeepAllNodes(BST.TRAVERSAL_PRE_ORDER), expected)
+
+        # change tree
+        self.bst.AddKeyValue(17, 17)
+        self.bst.AddKeyValue(18, 18)
+        self.bst.AddKeyValue(25, 25)
+
+        self.bst.DeleteNodeByKey(12)
+        self.bst.DeleteNodeByKey(11)
+        self.bst.DeleteNodeByKey(15)
+        self.bst.DeleteNodeByKey(8)
+
+        self.bst.AddKeyValue(24, 24)
+        self.bst.AddKeyValue(22, 22)
+
+        #        9
+        #       / \
+        #      4  13
+        #     / | |  \
+        #   2   6 10  14
+        #  /|  /|       \
+        # 1 3 5 7        17
+        #                  \
+        #                   20
+        #                  /  \
+        #                 18   25
+        #                    /
+        #                  24
+        #                 /
+        #               22
+
+        # in-order
+        expected = (
+            self.bst.Root.LeftChild.LeftChild.LeftChild,
+            self.bst.Root.LeftChild.LeftChild,
+            self.bst.Root.LeftChild.LeftChild.RightChild,
+            self.bst.Root.LeftChild,
+            self.bst.Root.LeftChild.RightChild.LeftChild,
+            self.bst.Root.LeftChild.RightChild,
+            self.bst.Root.LeftChild.RightChild.RightChild,
+            self.bst.Root,
+            self.bst.Root.RightChild.LeftChild,
+            self.bst.Root.RightChild,
+            self.bst.Root.RightChild.RightChild,
+            self.bst.Root.RightChild.RightChild.RightChild,
+            self.bst.Root.RightChild.RightChild.RightChild.RightChild.LeftChild,
+            self.bst.Root.RightChild.RightChild.RightChild.RightChild,
+            self.bst.Root.RightChild.RightChild.RightChild.RightChild.RightChild.LeftChild.LeftChild,
+            self.bst.Root.RightChild.RightChild.RightChild.RightChild.RightChild.LeftChild,
+            self.bst.Root.RightChild.RightChild.RightChild.RightChild.RightChild,
+        )
+        self.assertTupleEqual(self.bst.DeepAllNodes(BST.TRAVERSAL_IN_ORDER), expected)
+
+        # post-order
+        expected = (
+            self.bst.Root.LeftChild.LeftChild.LeftChild,
+            self.bst.Root.LeftChild.LeftChild.RightChild,
+            self.bst.Root.LeftChild.LeftChild,
+            self.bst.Root.LeftChild.RightChild.LeftChild,
+            self.bst.Root.LeftChild.RightChild.RightChild,
+            self.bst.Root.LeftChild.RightChild,
+            self.bst.Root.LeftChild,
+            self.bst.Root.RightChild.LeftChild,
+            self.bst.Root.RightChild.RightChild.RightChild.RightChild.LeftChild,
+            self.bst.Root.RightChild.RightChild.RightChild.RightChild.RightChild.LeftChild.LeftChild,
+            self.bst.Root.RightChild.RightChild.RightChild.RightChild.RightChild.LeftChild,
+            self.bst.Root.RightChild.RightChild.RightChild.RightChild.RightChild,
+            self.bst.Root.RightChild.RightChild.RightChild.RightChild,
+            self.bst.Root.RightChild.RightChild.RightChild,
+            self.bst.Root.RightChild.RightChild,
+            self.bst.Root.RightChild,
+            self.bst.Root,
+        )
+        self.assertTupleEqual(self.bst.DeepAllNodes(BST.TRAVERSAL_POST_ORDER), expected)
+
+        # pre-order
+        expected = (
+            self.bst.Root,
+            self.bst.Root.LeftChild,
+            self.bst.Root.LeftChild.LeftChild,
+            self.bst.Root.LeftChild.LeftChild.LeftChild,
+            self.bst.Root.LeftChild.LeftChild.RightChild,
+            self.bst.Root.LeftChild.RightChild,
+            self.bst.Root.LeftChild.RightChild.LeftChild,
+            self.bst.Root.LeftChild.RightChild.RightChild,
+            self.bst.Root.RightChild,
+            self.bst.Root.RightChild.LeftChild,
+            self.bst.Root.RightChild.RightChild,
+            self.bst.Root.RightChild.RightChild.RightChild,
+            self.bst.Root.RightChild.RightChild.RightChild.RightChild,
+            self.bst.Root.RightChild.RightChild.RightChild.RightChild.LeftChild,
+            self.bst.Root.RightChild.RightChild.RightChild.RightChild.RightChild,
+            self.bst.Root.RightChild.RightChild.RightChild.RightChild.RightChild.LeftChild,
+            self.bst.Root.RightChild.RightChild.RightChild.RightChild.RightChild.LeftChild.LeftChild,
+        )
+        self.assertTupleEqual(self.bst.DeepAllNodes(BST.TRAVERSAL_PRE_ORDER), expected)

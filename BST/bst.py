@@ -16,6 +16,9 @@ class BSTFind:
         self.ToLeft = False
 
 class BST:
+    TRAVERSAL_IN_ORDER = 0
+    TRAVERSAL_POST_ORDER = 1
+    TRAVERSAL_PRE_ORDER = 2
 
     def __init__(self, node: BSTNode) -> None:
         self.Root = node
@@ -166,3 +169,49 @@ class BST:
         count = 1 + self.__item_counter(node.LeftChild)
 
         return count + self.__item_counter(node.RightChild)
+
+    def WideAllNodes(self)-> tuple:
+        return self.__wide_traversal(self.Root)
+
+    def __wide_traversal(self, node: BSTNode) -> tuple:
+        if node is None:
+            return tuple()
+
+        nodes = tuple()
+        queue = [node]
+
+        while queue:
+            node = queue.pop(0)
+            nodes += (node,)
+
+            if node.LeftChild:
+                queue.append(node.LeftChild)
+
+            if node.RightChild:
+                queue.append(node.RightChild)
+
+        return nodes
+
+    def DeepAllNodes(self, order: int) -> tuple:
+        return self.__deep_traversal(self.Root, order)
+
+    def __deep_traversal(self, node: BSTNode, order: int) -> tuple:
+        if node is None:
+            return tuple()
+
+        nodes = tuple()
+
+        if order == self.TRAVERSAL_IN_ORDER:
+            nodes += self.__deep_traversal(node.LeftChild, order)
+            nodes += (node,)
+            nodes += self.__deep_traversal(node.RightChild, order)
+        elif order == self.TRAVERSAL_POST_ORDER:
+            nodes += self.__deep_traversal(node.LeftChild, order)
+            nodes += self.__deep_traversal(node.RightChild, order)
+            nodes += (node,)
+        elif order == self.TRAVERSAL_PRE_ORDER:
+            nodes += (node,)
+            nodes += self.__deep_traversal(node.LeftChild, order)
+            nodes += self.__deep_traversal(node.RightChild, order)
+
+        return nodes
