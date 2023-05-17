@@ -1,5 +1,6 @@
 import unittest
 from bst import aBST
+from functions import GenerateBBSTArray
 
 
 class TestBSTMethods(unittest.TestCase):
@@ -109,3 +110,42 @@ class TestBSTMethods(unittest.TestCase):
         self.assertEqual(self.bst.Tree[8], -1)
         self.assertEqual(self.bst.Tree[12], 64)
         self.assertEqual(self.bst.Tree[13], 80)
+        print(self.bst.Tree)
+
+    def test_GenerateBBSTArray(self):
+        input = []
+        bst = GenerateBBSTArray(input)
+        self.assertListEqual(bst, input)
+
+        input = [1]
+        bst = GenerateBBSTArray(input)
+        self.assertListEqual(bst, input)
+
+        input = [10, 5]
+        bst = GenerateBBSTArray(input)
+        expected = [10, 5, None]
+        self.assertListEqual(bst, input)
+
+        input = [10, 5, 9]
+        bst = GenerateBBSTArray(input)
+        expected = [9, 5, 10]
+        self.assertListEqual(bst, input)
+
+        input = [10, 5, 9, 4]
+        bst = GenerateBBSTArray(input)
+        expected = [5, 4, 9, None, None, None, 10]
+        self.assertListEqual(bst, input)
+
+        input = [62, -5, 25, 64, 92, 50, -10, -1, 75, 80, 37, 84, 43, 55, 31]
+        bst = GenerateBBSTArray(input)
+
+        #             50
+        #           /    \
+        #         25      75
+        #        /  \     /  \
+        #      -5   37   62   84
+        #     /|   / \   / \  | \
+        #  -10 -1 31 43 55 64 80 92
+
+        expected = [50, 25, 75, -5, 37, 62, 84, -10, -1, 31, 43, 55, 64, 80, 92]
+        self.assertListEqual(bst, expected)
