@@ -113,28 +113,28 @@ class TestBSTMethods(unittest.TestCase):
         print(self.bst.Tree)
 
     def test_GenerateBBSTArray(self):
-        input = []
+        input = expected = []
         bst = GenerateBBSTArray(input)
-        self.assertListEqual(bst, input)
+        self.assertListEqual(bst, expected)
 
-        input = [1]
+        input = expected = [1]
         bst = GenerateBBSTArray(input)
-        self.assertListEqual(bst, input)
+        self.assertListEqual(bst, expected)
 
         input = [10, 5]
         bst = GenerateBBSTArray(input)
         expected = [10, 5, None]
-        self.assertListEqual(bst, input)
+        self.assertListEqual(bst, expected)
 
         input = [10, 5, 9]
         bst = GenerateBBSTArray(input)
         expected = [9, 5, 10]
-        self.assertListEqual(bst, input)
+        self.assertListEqual(bst, expected)
 
         input = [10, 5, 9, 4]
         bst = GenerateBBSTArray(input)
         expected = [5, 4, 9, None, None, None, 10]
-        self.assertListEqual(bst, input)
+        self.assertListEqual(bst, expected)
 
         input = [62, -5, 25, 64, 92, 50, -10, -1, 75, 80, 37, 84, 43, 55, 31]
         bst = GenerateBBSTArray(input)
