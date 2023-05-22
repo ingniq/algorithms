@@ -47,9 +47,9 @@ class TestHeap(TestCase):
 
     def test_GetMax(self):
         heap = Heap()
-        self.assertListEqual(heap.GetMax(), -1)
+        self.assertEqual(heap.GetMax(), -1)
         heap.MakeHeap([], 3)
-        self.assertListEqual(heap.GetMax(), -1)
+        self.assertEqual(heap.GetMax(), -1)
 
         input = [1, 3, 6, 7, 4, 2, 9, 11, 5, 8, 1, 2, 3, 4, 5]
         heap.MakeHeap(input, 3)
@@ -64,7 +64,7 @@ class TestHeap(TestCase):
         #   /|  /| |\  |\
         #  1 5 4 1 2 2 3 4
 
-        self.assertListEqual(heap.GetMax(), 11)
+        self.assertEqual(heap.GetMax(), 11)
         expected = [9, 8, 7, 6, 4, 3, 5, 1, 5, 4, 1, 2, 2, 3, None]
         self.assertListEqual(heap.HeapArray, expected)
 
@@ -76,7 +76,7 @@ class TestHeap(TestCase):
         #   /|  /| |\  |
         #  1 5 4 1 2 2 3
 
-        self.assertListEqual(heap.GetMax(), 9)
+        self.assertEqual(heap.GetMax(), 9)
         expected = [8, 6, 7, 5, 4, 3, 5, 1, 3, 4, 1, 2, 2, None, None]
         self.assertListEqual(heap.HeapArray, expected)
 
@@ -88,7 +88,7 @@ class TestHeap(TestCase):
         #   /|  /| |\
         #  1 3 4 1 2 2
 
-        self.assertListEqual(heap.GetMax(), 8)
+        self.assertEqual(heap.GetMax(), 8)
         expected = [7, 6, 5, 5, 4, 3, 2, 1, 3, 4, 1, 2, None, None, None]
         self.assertListEqual(heap.HeapArray, expected)
 
@@ -100,7 +100,7 @@ class TestHeap(TestCase):
         #   /|  /| |
         #  1 3 4 1 2
 
-        self.assertListEqual(heap.GetMax(), 7)
+        self.assertEqual(heap.GetMax(), 7)
         expected = [6, 5, 5, 3, 4, 3, 2, 1, 2, 4, 1, None, None, None, None]
         self.assertListEqual(heap.HeapArray, expected)
 
@@ -112,7 +112,7 @@ class TestHeap(TestCase):
         #   /|  /|
         #  1 2 4 1
 
-        self.assertListEqual(heap.GetMax(), 6)
+        self.assertEqual(heap.GetMax(), 6)
         expected = [5, 4, 5, 3, 4, 3, 2, 1, 2, 1, None, None, None, None, None]
         self.assertListEqual(heap.HeapArray, expected)
 
@@ -124,7 +124,7 @@ class TestHeap(TestCase):
         #   /|  /
         #  1 2 1
 
-        self.assertListEqual(heap.GetMax(), 5)
+        self.assertEqual(heap.GetMax(), 5)
         expected = [5, 4, 3, 3, 4, 1, 2, 1, 2, None, None, None, None, None, None]
         self.assertListEqual(heap.HeapArray, expected)
 
@@ -136,7 +136,7 @@ class TestHeap(TestCase):
         #   /|
         #  1 2
 
-        self.assertListEqual(heap.GetMax(), 5)
+        self.assertEqual(heap.GetMax(), 5)
         expected = [4, 4, 3, 3, 2, 1, 2, 1, None, None, None, None, None, None, None]
         self.assertListEqual(heap.HeapArray, expected)
 
@@ -148,7 +148,7 @@ class TestHeap(TestCase):
         #   /
         #  1
 
-        self.assertListEqual(heap.GetMax(), 4)
+        self.assertEqual(heap.GetMax(), 4)
         expected = [4, 3, 3, 1, 2, 1, 2, None, None, None, None, None, None, None, None]
         self.assertListEqual(heap.HeapArray, expected)
 
@@ -158,7 +158,7 @@ class TestHeap(TestCase):
         #     / |  / \
         #    1  2 1   2
 
-        self.assertListEqual(heap.GetMax(), 4)
+        self.assertEqual(heap.GetMax(), 4)
         expected = [3, 2, 3, 1, 2, 1, None, None, None, None, None, None, None, None, None]
         self.assertListEqual(heap.HeapArray, expected)
 
@@ -168,7 +168,7 @@ class TestHeap(TestCase):
         #     / |  /
         #    1  2 1
 
-        self.assertListEqual(heap.GetMax(), 3)
+        self.assertEqual(heap.GetMax(), 3)
         expected = [3, 2, 1, 1, 2, None, None, None, None, None, None, None, None, None, None]
         self.assertListEqual(heap.HeapArray, expected)
 
@@ -178,7 +178,7 @@ class TestHeap(TestCase):
         #     / |
         #    1  2
 
-        self.assertListEqual(heap.GetMax(), 3)
+        self.assertEqual(heap.GetMax(), 3)
         expected = [2, 2, 1, 2, None, None, None, None, None, None, None, None, None, None, None]
         self.assertListEqual(heap.HeapArray, expected)
 
@@ -188,7 +188,7 @@ class TestHeap(TestCase):
         #     /
         #    2
 
-        self.assertListEqual(heap.GetMax(), 2)
+        self.assertEqual(heap.GetMax(), 2)
         expected = [2, 2, 1, None, None, None, None, None, None, None, None, None, None, None, None]
         self.assertListEqual(heap.HeapArray, expected)
 
@@ -196,7 +196,7 @@ class TestHeap(TestCase):
         #       / \
         #      2   1
 
-        self.assertListEqual(heap.GetMax(), 2)
+        self.assertEqual(heap.GetMax(), 2)
         expected = [2, 1, None, None, None, None, None, None, None, None, None, None, None, None, None]
         self.assertListEqual(heap.HeapArray, expected)
 
@@ -204,17 +204,17 @@ class TestHeap(TestCase):
         #       /
         #      1
 
-        self.assertListEqual(heap.GetMax(), 2)
+        self.assertEqual(heap.GetMax(), 2)
         expected = [1, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
         self.assertListEqual(heap.HeapArray, expected)
 
         #      1
 
-        self.assertListEqual(heap.GetMax(), 1)
+        self.assertEqual(heap.GetMax(), 1)
         expected = [None, None, None, None, None, None, None, None, None, None, None, None, None, None, None]
         self.assertListEqual(heap.HeapArray, expected)
 
-        self.assertListEqual(heap.GetMax(), -1)
+        self.assertEqual(heap.GetMax(), -1)
 
     def test_Add(self):
         heap = Heap()
