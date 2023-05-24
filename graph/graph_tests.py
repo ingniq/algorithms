@@ -1,5 +1,5 @@
 from unittest import TestCase
-from Graph import SimpleGraph, Vertex
+from Graph import SimpleGraph
 
 class GraphTests(TestCase):
 
