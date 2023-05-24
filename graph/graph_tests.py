@@ -35,20 +35,20 @@ class GraphTests(TestCase):
 
     def test_AddVertex(self):
         graph = SimpleGraph(0)
-        graph.AddVertex(Vertex(1))
+        graph.AddVertex(1)
 
         self.assertListEqual(graph.m_adjacency, [])
         self.assertListEqual(graph.vertex, [])
 
         graph = SimpleGraph(1)
-        vertex = Vertex(1)
+        vertex = 1
         graph.AddVertex(vertex)
 
         self.assertListEqual(graph.m_adjacency, [[0]])
-        self.assertListEqual(graph.vertex, [vertex])
+        self.assertEqual(graph.vertex[0].Value, vertex)
 
         graph = SimpleGraph(5)
-        vertex_1 = Vertex(1)
+        vertex_1 = 1
         graph.AddVertex(vertex_1)
 
         self.assertEqual(len(graph.m_adjacency), 5)
@@ -63,52 +63,74 @@ class GraphTests(TestCase):
             ]
         )
 
-        self.assertListEqual(graph.vertex, [vertex_1, None, None, None, None])
+        self.assertEqual(graph.vertex[0].Value, vertex_1)
+        for i in range(1, graph.max_vertex):
+            self.assertIsNone(graph.vertex[i])
 
-        vertex_2 = Vertex(2)
+        vertex_2 = 2
         graph.AddVertex(vertex_2)
-        self.assertListEqual(graph.vertex, [vertex_1, vertex_2, None, None, None])
+        self.assertEqual(graph.vertex[0].Value, vertex_1)
+        self.assertEqual(graph.vertex[1].Value, vertex_2)
+        for i in range(2, graph.max_vertex):
+            self.assertIsNone(graph.vertex[i])
 
-        vertex_3 = Vertex(3)
+        vertex_3 = 3
         graph.AddVertex(vertex_3)
-        self.assertListEqual(graph.vertex, [vertex_1, vertex_2, vertex_3, None, None])
+        self.assertEqual(graph.vertex[0].Value, vertex_1)
+        self.assertEqual(graph.vertex[1].Value, vertex_2)
+        self.assertEqual(graph.vertex[2].Value, vertex_3)
+        for i in range(3, graph.max_vertex):
+            self.assertIsNone(graph.vertex[i])
 
-        vertex_4 = Vertex(4)
+        vertex_4 = 4
         graph.AddVertex(vertex_4)
-        self.assertListEqual(graph.vertex, [vertex_1, vertex_2, vertex_3, vertex_4, None])
+        self.assertEqual(graph.vertex[0].Value, vertex_1)
+        self.assertEqual(graph.vertex[1].Value, vertex_2)
+        self.assertEqual(graph.vertex[2].Value, vertex_3)
+        self.assertEqual(graph.vertex[3].Value, vertex_4)
+        for i in range(4, graph.max_vertex):
+            self.assertIsNone(graph.vertex[i])
 
         graph.AddVertex(vertex_4)
-        self.assertListEqual(graph.vertex, [vertex_1, vertex_2, vertex_3, vertex_4, vertex_4])
+        self.assertEqual(graph.vertex[0].Value, vertex_1)
+        self.assertEqual(graph.vertex[1].Value, vertex_2)
+        self.assertEqual(graph.vertex[2].Value, vertex_3)
+        self.assertEqual(graph.vertex[3].Value, vertex_4)
+        self.assertEqual(graph.vertex[4].Value, vertex_4)
 
-        vertex_6 = Vertex(6)
+        vertex_6 = 6
         graph.AddVertex(vertex_6)
-        self.assertListEqual(graph.vertex, [vertex_1, vertex_2, vertex_3, vertex_4, vertex_4])
+        self.assertEqual(graph.vertex[0].Value, vertex_1)
+        self.assertEqual(graph.vertex[1].Value, vertex_2)
+        self.assertEqual(graph.vertex[2].Value, vertex_3)
+        self.assertEqual(graph.vertex[3].Value, vertex_4)
+        self.assertEqual(graph.vertex[4].Value, vertex_4)
 
     def test_RemoveVertex(self):
         graph = SimpleGraph(0)
         graph.RemoveVertex(1)
 
         graph = SimpleGraph(1)
-        vertex = Vertex(1)
+        vertex = 1
         graph.AddVertex(vertex)
 
         self.assertListEqual(graph.m_adjacency, [[0]])
-        self.assertListEqual(graph.vertex, [vertex])
+        self.assertEqual(graph.vertex[0].Value, 1)
 
         graph.RemoveVertex(1)
         self.assertListEqual(graph.m_adjacency, [[0]])
-        self.assertListEqual(graph.vertex, [vertex])
+        self.assertEqual(graph.vertex[0].Value, 1)
 
         graph.RemoveVertex(0)
         self.assertListEqual(graph.m_adjacency, [[0]])
-        self.assertListEqual(graph.vertex, [None])
+        self.assertIsNone(graph.vertex[0])
 
         graph = SimpleGraph(5)
-        vertex_0 = Vertex(0)
-        vertex_1 = Vertex(1)
-        vertex_2 = Vertex(2)
-        vertex_3 = Vertex(3)
-        vertex_4 = Vertex(4)
+        vertex_0 = 0
+        vertex_1 = 1
+        vertex_2 = 2
+        vertex_3 = 3
+        vertex_4 = 4
         graph.AddVertex(vertex_0)
         graph.AddVertex(vertex_1)
         graph.AddVertex(vertex_2)
@@ -128,7 +150,11 @@ class GraphTests(TestCase):
                 [0, 0, 0, 0, 0]
             ]
         )
-        self.assertListEqual(graph.vertex, [vertex_0, vertex_1, vertex_2, vertex_3, vertex_4])
+        self.assertEqual(graph.vertex[0].Value, vertex_0)
+        self.assertEqual(graph.vertex[1].Value, vertex_1)
+        self.assertEqual(graph.vertex[2].Value, vertex_2)
+        self.assertEqual(graph.vertex[3].Value, vertex_3)
+        self.assertEqual(graph.vertex[4].Value, vertex_4)
 
         graph.RemoveVertex(0)
         self.assertListEqual(graph.m_adjacency,
@@ -140,7 +166,11 @@ class GraphTests(TestCase):
                 [0, 0, 0, 0, 0]
             ]
         )
-        self.assertListEqual(graph.vertex, [None, vertex_1, vertex_2, vertex_3, vertex_4])
+        self.assertIsNone(graph.vertex[0])
+        self.assertEqual(graph.vertex[1].Value, vertex_1)
+        self.assertEqual(graph.vertex[2].Value, vertex_2)
+        self.assertEqual(graph.vertex[3].Value, vertex_3)
+        self.assertEqual(graph.vertex[4].Value, vertex_4)
 
         graph.RemoveVertex(2)
         self.assertListEqual(graph.m_adjacency,
@@ -152,7 +182,11 @@ class GraphTests(TestCase):
                 [0, 0, 0, 0, 0]
             ]
         )
-        self.assertListEqual(graph.vertex, [None, vertex_1, None, vertex_3, vertex_4])
+        self.assertIsNone(graph.vertex[0])
+        self.assertEqual(graph.vertex[1].Value, vertex_1)
+        self.assertIsNone(graph.vertex[2])
+        self.assertEqual(graph.vertex[3].Value, vertex_3)
+        self.assertEqual(graph.vertex[4].Value, vertex_4)
 
         graph.RemoveVertex(4)
         self.assertListEqual(graph.m_adjacency,
@@ -164,20 +198,23 @@ class GraphTests(TestCase):
                 [0, 0, 0, 0, 0]
             ]
         )
-        self.assertListEqual(graph.vertex, [None, vertex_1, None, vertex_3, None])
-
+        self.assertIsNone(graph.vertex[0])
+        self.assertEqual(graph.vertex[1].Value, vertex_1)
+        self.assertIsNone(graph.vertex[2])
+        self.assertEqual(graph.vertex[3].Value, vertex_3)
+        self.assertIsNone(graph.vertex[4])
 
         graph.AddVertex(vertex_4)
         graph.AddVertex(vertex_0)
         graph.AddVertex(vertex_2)
-        graph.AddEdge(4, 0)
-        graph.AddEdge(4, 1)
-        graph.AddEdge(4, 3)
+        graph.AddEdge(0, 1)
+        graph.AddEdge(0, 2)
+        graph.AddEdge(0, 3)
+        graph.AddEdge(1, 3)
+        graph.AddEdge(1, 4)
+        graph.AddEdge(2, 3)
         graph.AddEdge(3, 3)
-        graph.AddEdge(3, 1)
-        graph.AddEdge(3, 0)
-        graph.AddEdge(3, 2)
-        graph.AddEdge(1, 2)
+        graph.AddEdge(3, 4)
 
         #  4---1\
         #  |\  | \
@@ -195,7 +232,11 @@ class GraphTests(TestCase):
                 [0, 1, 0, 1, 0]
             ]
         )
-        self.assertListEqual(graph.vertex, [vertex_4, vertex_1, vertex_0, vertex_3, vertex_2])
+        self.assertEqual(graph.vertex[0].Value, vertex_4)
+        self.assertEqual(graph.vertex[1].Value, vertex_1)
+        self.assertEqual(graph.vertex[2].Value, vertex_0)
+        self.assertEqual(graph.vertex[3].Value, vertex_3)
+        self.assertEqual(graph.vertex[4].Value, vertex_2)
 
         graph.RemoveVertex(0)
 
@@ -215,7 +256,11 @@ class GraphTests(TestCase):
                 [0, 1, 0, 1, 0]
             ]
         )
-        self.assertListEqual(graph.vertex, [None, vertex_1, vertex_0, vertex_3, vertex_2])
+        self.assertIsNone(graph.vertex[0])
+        self.assertEqual(graph.vertex[1].Value, vertex_1)
+        self.assertEqual(graph.vertex[2].Value, vertex_0)
+        self.assertEqual(graph.vertex[3].Value, vertex_3)
+        self.assertEqual(graph.vertex[4].Value, vertex_2)
 
         graph.RemoveVertex(3)
 
@@ -234,16 +279,20 @@ class GraphTests(TestCase):
                 [0, 1, 0, 0, 0]
             ]
         )
-        self.assertListEqual(graph.vertex, [None, vertex_1, vertex_0, None, vertex_2])
+        self.assertIsNone(graph.vertex[0])
+        self.assertEqual(graph.vertex[1].Value, vertex_1)
+        self.assertEqual(graph.vertex[2].Value, vertex_0)
+        self.assertIsNone(graph.vertex[3])
+        self.assertEqual(graph.vertex[4].Value, vertex_2)
 
     def test_IsEdge(self):
         graph = SimpleGraph(6)
-        vertex_0 = Vertex(0)
-        vertex_1 = Vertex(1)
-        vertex_2 = Vertex(2)
-        vertex_3 = Vertex(3)
-        vertex_4 = Vertex(4)
-        vertex_5 = Vertex(5)
+        vertex_0 = 0
+        vertex_1 = 1
+        vertex_2 = 2
+        vertex_3 = 3
+        vertex_4 = 4
+        vertex_5 = 5
         graph.AddVertex(vertex_0)
         graph.AddVertex(vertex_1)
         graph.AddVertex(vertex_2)
@@ -310,11 +359,11 @@ class GraphTests(TestCase):
 
 
     def test_AddEdge(self):
-        vertex_0 = Vertex(0)
-        vertex_1 = Vertex(1)
-        vertex_2 = Vertex(2)
-        vertex_3 = Vertex(3)
-        vertex_4 = Vertex(4)
+        vertex_0 = 0
+        vertex_1 = 1
+        vertex_2 = 2
+        vertex_3 = 3
+        vertex_4 = 4
 
         graph = SimpleGraph(0)
         graph.AddVertex(vertex_0)
@@ -444,11 +493,11 @@ class GraphTests(TestCase):
 
 
     def test_RemoveEdge(self):
-        vertex_0 = Vertex(0)
-        vertex_1 = Vertex(1)
-        vertex_2 = Vertex(2)
-        vertex_3 = Vertex(3)
-        vertex_4 = Vertex(4)
+        vertex_0 = 0
+        vertex_1 = 1
+        vertex_2 = 2
+        vertex_3 = 3
+        vertex_4 = 4
 
         graph = SimpleGraph(0)
         graph.AddVertex(vertex_0)
