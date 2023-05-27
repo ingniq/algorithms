@@ -107,3 +107,21 @@ class SimpleTree:
             num_items += self.__items_counter(nodes=nodes[index].Children, index=0, only_leaves=only_leaves)
 
         return num_items + self.__items_counter(nodes=nodes, index=index + 1, only_leaves=only_leaves)
+
+    def EvenTrees(self) -> list:
+        if self.Count() % 2 != 0:
+            return []
+
+        edges = []
+        stack = [self.Root]
+
+        while stack:
+            node = stack.pop(0)
+
+            if node.Parent and self.__items_counter(nodes=[node], index=0, only_leaves=False) % 2 == 0:
+                edges.append(node.Parent)
+                edges.append(node)
+
+            stack.extend(node.Children)
+
+        return edges

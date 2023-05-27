@@ -84,6 +84,8 @@ class TestSimpleTreeMethods(unittest.TestCase):
         # |
         # 6
 
+        self.assertEqual(tree.EvenTrees(), [])  # EvenTrees
+
         # DeleteNode
         parent = node_1.Parent
         tree.DeleteNode(node_1)
@@ -99,6 +101,8 @@ class TestSimpleTreeMethods(unittest.TestCase):
         # 2 3
         # | | \
         # 5 7 8
+
+        self.assertEqual(tree.EvenTrees(), [root_node, node_2])  # EvenTrees
 
         # GetAllNodes
         nodes = tree.GetAllNodes()
@@ -119,6 +123,8 @@ class TestSimpleTreeMethods(unittest.TestCase):
         # 5 7 8
         # | \ |
         # 2-1 2
+
+        self.assertEqual(tree.EvenTrees(), [])  # EvenTrees
 
         nodes = tree.FindNodesByValue(2)
         self.assertListEqual(nodes, [node_2, node_10, node_9])
@@ -166,3 +172,39 @@ class TestSimpleTreeMethods(unittest.TestCase):
 
         # LeafCount
         self.assertEqual(tree.LeafCount(), 4)
+
+        # EvenTrees
+        self.assertEqual(tree.EvenTrees(), [])
+
+        root_node = SimpleTreeNode(1, None)
+        tree = SimpleTree(root_node)
+
+        node_2 = SimpleTreeNode(2, None)
+        node_3 = SimpleTreeNode(3, None)
+        node_4 = SimpleTreeNode(4, None)
+        node_5 = SimpleTreeNode(5, None)
+        node_6 = SimpleTreeNode(6, None)
+        node_7 = SimpleTreeNode(7, None)
+        node_8 = SimpleTreeNode(8, None)
+        node_9 = SimpleTreeNode(9, None)
+        node_10 = SimpleTreeNode(10, None)
+
+        tree.AddChild(root_node, node_2)
+        tree.AddChild(root_node, node_3)
+        tree.AddChild(root_node, node_6)
+        tree.AddChild(node_2, node_5)
+        tree.AddChild(node_2, node_7)
+        tree.AddChild(node_3, node_4)
+        tree.AddChild(node_6, node_8)
+        tree.AddChild(node_8, node_9)
+        tree.AddChild(node_8, node_10)
+
+        # root
+        # |  \ \
+        # 2   3 6
+        # |\  | |
+        # 5 7 4 8
+        #       |\
+        #       9 10
+
+        self.assertEqual(tree.EvenTrees(), [root_node, node_3, root_node, node_6])
