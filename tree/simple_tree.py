@@ -113,15 +113,15 @@ class SimpleTree:
             return []
 
         edges_to_delete = []
-        stack = [self.Root]
+        queue = [self.Root]
 
-        while stack:
-            node = stack.pop(0)
+        while queue:
+            node = queue.pop(0)
 
             if node.Parent and self.__items_counter(nodes=[node], index=0, only_leaves=False) % 2 == 0:
                 edges_to_delete.append(node.Parent)
                 edges_to_delete.append(node)
 
-            stack.extend(node.Children)
+            queue.extend(node.Children)
 
         return edges_to_delete

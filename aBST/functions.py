@@ -9,12 +9,12 @@ def GenerateBBSTArray(a: list) -> list:
         return a
 
     a = sorted(a)
-    stack = []
-    stack.append((0, bst_length // 2, None))  # (index_bst, parent, prev_parent)
+    queue = []
+    queue.append((0, bst_length // 2, None))  # (index_bst, parent, prev_parent)
     aBST = [None] * bst_length
 
-    while stack:
-        index_bst, parent, prev_parent = stack.pop(0)
+    while queue:
+        index_bst, parent, prev_parent = queue.pop(0)
         aBST[index_bst] = a[parent]
 
         if prev_parent is not None:
@@ -35,9 +35,9 @@ def GenerateBBSTArray(a: list) -> list:
         prev_parent = parent
 
         if left_index_bst < bst_length:
-            stack.append((left_index_bst, left, parent))
+            queue.append((left_index_bst, left, parent))
 
         if right_index_bst < bst_length:
-            stack.append((right_index_bst, right, parent))
+            queue.append((right_index_bst, right, parent))
 
     return aBST
