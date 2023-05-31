@@ -2,7 +2,7 @@ class Vertex:
 
     def __init__(self, val):
         self.Value = val
-        self.hit = False
+        self.Hit = False
 
 class SimpleGraph:
 
@@ -75,7 +75,7 @@ class SimpleGraph:
 
         for vertex in self.vertex:
             if vertex:
-                vertex.hit = False
+                vertex.Hit = False
 
         return self.__depth_first_path_search(VFrom, VTo)
 
@@ -87,7 +87,7 @@ class SimpleGraph:
             return []
 
         stack = []
-        vertex_from.hit = True
+        vertex_from.Hit = True
         stack.append(vertex_from)
 
         if self.m_adjacency[VFrom][VTo] == 1:
@@ -97,7 +97,7 @@ class SimpleGraph:
         next_vertex = None
 
         for j in range(self.max_vertex):
-            if self.m_adjacency[VFrom][j] == 1 and self.vertex[j].hit is False:
+            if self.m_adjacency[VFrom][j] == 1 and self.vertex[j].Hit is False:
                 next_vertex = j
                 break
 
@@ -110,3 +110,52 @@ class SimpleGraph:
             next_step = self.__depth_first_path_search(stack.pop().Value, VTo)
 
         return stack + next_step
+
+    def BreadthFirstSearch(self, VFrom: int, VTo: int):
+        if VFrom >= self.max_vertex or VTo >= self.max_vertex:
+            return []
+
+        for vertex in self.vertex:
+            if vertex:
+                vertex.Hit = False
+
+        vertex_from = self.vertex[VFrom]
+        vertex_to = self.vertex[VTo]
+
+        if vertex_from is None or vertex_to is None:
+            return []
+
+        if self.m_adjacency[VFrom][VTo] == 1:
+            return [vertex_from, vertex_to]
+
+        tour = {}
+        queue = [VFrom]
+        vertex_from.Hit = True
+
+        while queue:
+            i = queue.pop(0)
+
+            if self.m_adjacency[i][VTo] == 1:
+                tour[VTo] = i
+                break
+
+            for j in range(self.max_vertex):
+                if self.m_adjacency[i][j] == 1 and self.vertex[j].Hit is False:
+                    self.vertex[j].Hit = True
+                    queue.append(j)
+                    tour[j] = i
+
+        if not queue and VTo not in tour:
+            return []
+
+        path = []
+        item = VTo
+
+        while item != VFrom:
+            path.append(item)
+            item = tour[item]
+
+        path.append(VFrom)
+        path = reversed(path)
+
+        return [self.vertex[i] for i in path]
