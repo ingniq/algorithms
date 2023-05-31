@@ -749,3 +749,124 @@ class GraphTests(TestCase):
         self.assertEqual(path[7].Value, 6)
         self.assertEqual(path[8].Value, 7)
         self.assertEqual(path[9].Value, 10)
+
+        path = graph.DepthFirstSearch(vertex_10, vertex_2)
+        self.assertEqual(path[0].Value, 10)
+        self.assertEqual(path[1].Value, 7)
+        self.assertEqual(path[2].Value, 6)
+        self.assertEqual(path[3].Value, 5)
+        self.assertEqual(path[4].Value, 3)
+        self.assertEqual(path[5].Value, 2)
+
+
+    def test_BreadthFirstSearch(self):
+        vertex_0 = 0
+        vertex_1 = 1
+        vertex_2 = 2
+        vertex_3 = 3
+        vertex_4 = 4
+        vertex_5 = 5
+        vertex_6 = 6
+        vertex_7 = 7
+        vertex_8 = 8
+        vertex_9 = 9
+        vertex_10 = 10
+
+        graph = SimpleGraph(1)
+        path = graph.BreadthFirstSearch(vertex_0, vertex_0)
+        self.assertListEqual(path, [])
+
+        graph.AddVertex(vertex_0)
+
+        path = graph.BreadthFirstSearch(vertex_0, vertex_0)
+        self.assertListEqual(path, [])
+
+        path = graph.BreadthFirstSearch(vertex_0, vertex_3)
+        self.assertListEqual(path, [])
+
+        path = graph.BreadthFirstSearch(vertex_3, vertex_3)
+        self.assertListEqual(path, [])
+
+        graph.AddEdge(0, 0)
+        path = graph.BreadthFirstSearch(vertex_0, vertex_0)
+        self.assertEqual(path[0].Value, 0)
+        self.assertEqual(path[1].Value, 0)
+
+        graph = SimpleGraph(11)
+        graph.AddVertex(vertex_0)
+        graph.AddVertex(vertex_1)
+        graph.AddVertex(vertex_2)
+        graph.AddVertex(vertex_3)
+        graph.AddVertex(vertex_4)
+        graph.AddVertex(vertex_5)
+        graph.AddVertex(vertex_6)
+        graph.AddVertex(vertex_7)
+        graph.AddVertex(vertex_8)
+        graph.AddVertex(vertex_9)
+        graph.AddVertex(vertex_10)
+        graph.AddEdge(0, 1)
+        graph.AddEdge(0, 2)
+        graph.AddEdge(0, 3)
+        graph.AddEdge(1, 3)
+        graph.AddEdge(1, 4)
+        graph.AddEdge(2, 3)
+        graph.AddEdge(3, 3)
+        graph.AddEdge(3, 4)
+        graph.AddEdge(3, 5)
+        graph.AddEdge(4, 8)
+        graph.AddEdge(5, 6)
+        graph.AddEdge(5, 8)
+        graph.AddEdge(6, 7)
+        graph.AddEdge(7, 8)
+        graph.AddEdge(7, 9)
+        graph.AddEdge(7, 10)
+
+        #  0---1\         10
+        #  |\  | \        |
+        #  | \ |  4--8----7----9
+        #  |  \| /   |    |
+        #  2---3/----5----6
+        #     /_\
+
+        path = graph.BreadthFirstSearch(vertex_3, vertex_3)
+        self.assertEqual(path[0].Value, 3)
+        self.assertEqual(path[1].Value, 3)
+
+        path = graph.BreadthFirstSearch(vertex_0, vertex_3)
+        self.assertEqual(path[0].Value, 0)
+        self.assertEqual(path[1].Value, 3)
+
+        path = graph.BreadthFirstSearch(vertex_0, vertex_4)
+        self.assertEqual(path[0].Value, 0)
+        self.assertEqual(path[1].Value, 1)
+        self.assertEqual(path[2].Value, 4)
+
+        path = graph.BreadthFirstSearch(vertex_4, vertex_0)
+        self.assertEqual(path[0].Value, 4)
+        self.assertEqual(path[1].Value, 1)
+        self.assertEqual(path[2].Value, 0)
+
+        path = graph.BreadthFirstSearch(vertex_2, vertex_4)
+        self.assertEqual(path[0].Value, 2)
+        self.assertEqual(path[1].Value, 3)
+        self.assertEqual(path[2].Value, 4)
+
+        path = graph.BreadthFirstSearch(vertex_2, vertex_0)
+        self.assertEqual(path[0].Value, 2)
+        self.assertEqual(path[1].Value, 0)
+
+        path = graph.BreadthFirstSearch(vertex_2, vertex_10)
+        self.assertEqual(path[0].Value, 2)
+        self.assertEqual(path[1].Value, 3)
+        self.assertEqual(path[2].Value, 4)
+        self.assertEqual(path[3].Value, 8)
+        self.assertEqual(path[4].Value, 7)
+        self.assertEqual(path[5].Value, 10)
+
+        path = graph.BreadthFirstSearch(vertex_10, vertex_2)
+        self.assertEqual(path[0].Value, 10)
+        self.assertEqual(path[1].Value, 7)
+        self.assertEqual(path[2].Value, 6)
+        self.assertEqual(path[3].Value, 5)
+        self.assertEqual(path[4].Value, 3)
+        self.assertEqual(path[5].Value, 2)
