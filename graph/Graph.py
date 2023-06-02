@@ -159,3 +159,41 @@ class SimpleGraph:
         path = reversed(path)
 
         return [self.vertex[i] for i in path]
+
+    def WeakVertices(self) -> list:
+        if not self.vertex:
+            return []
+
+        for vertex in self.vertex:
+            if vertex:
+                vertex.Hit = False
+
+        weak_vertices = []
+
+        for current in range(self.max_vertex):
+            if self.vertex[current] is None:
+                continue
+
+            neighbors = []
+            current_is_weak = True
+
+            if self.vertex[current].Hit:
+                current_is_weak = False
+
+            self.vertex[current].Hit = True
+
+            for j in range(self.max_vertex):
+                if current != j and self.IsEdge(current, j):
+                    neighbors.append(j)
+
+            for i in neighbors:
+                for j in neighbors:
+                    if i != j and self.IsEdge(i, j) and self.vertex[j].Hit is False:
+                        current_is_weak = False
+                        self.vertex[i].Hit = True
+                        self.vertex[j].Hit = True
+
+            if current_is_weak:
+                weak_vertices.append(self.vertex[current])
+
+        return weak_vertices
