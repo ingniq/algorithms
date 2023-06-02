@@ -891,12 +891,20 @@ class GraphTests(TestCase):
         weak_vertices = graph.WeakVertices()
         self.assertEqual(weak_vertices[0].Value, 0)
 
+        graph = SimpleGraph(2)
+        graph.AddVertex(vertex_0)
         graph.AddVertex(vertex_1)
+
         weak_vertices = graph.WeakVertices()
         self.assertEqual(weak_vertices[0].Value, 0)
         self.assertEqual(weak_vertices[1].Value, 1)
 
+        graph = SimpleGraph(4)
+        graph.AddVertex(vertex_0)
+        graph.AddVertex(vertex_1)
         graph.AddVertex(vertex_2)
+        graph.AddVertex(vertex_3)
+
         weak_vertices = graph.WeakVertices()
         self.assertEqual(weak_vertices[0].Value, 0)
         self.assertEqual(weak_vertices[1].Value, 1)
