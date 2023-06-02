@@ -870,3 +870,94 @@ class GraphTests(TestCase):
         self.assertEqual(path[3].Value, 5)
         self.assertEqual(path[4].Value, 3)
         self.assertEqual(path[5].Value, 2)
+
+    def test_WeakVertices(self):
+        vertex_0 = 0
+        vertex_1 = 1
+        vertex_2 = 2
+        vertex_3 = 3
+        vertex_4 = 4
+        vertex_5 = 5
+        vertex_6 = 6
+        vertex_7 = 7
+        vertex_8 = 8
+        vertex_9 = 9
+        vertex_10 = 10
+
+        graph = SimpleGraph(1)
+        self.assertListEqual(graph.WeakVertices(), [])
+
+        graph.AddVertex(vertex_0)
+        weak_vertices = graph.WeakVertices()
+        self.assertEqual(weak_vertices[0].Value, 0)
+
+        graph.AddVertex(vertex_1)
+        weak_vertices = graph.WeakVertices()
+        self.assertEqual(weak_vertices[0].Value, 0)
+        self.assertEqual(weak_vertices[1].Value, 1)
+
+        graph.AddVertex(vertex_2)
+        weak_vertices = graph.WeakVertices()
+        self.assertEqual(weak_vertices[0].Value, 0)
+        self.assertEqual(weak_vertices[1].Value, 1)
+        self.assertEqual(weak_vertices[2].Value, 2)
+
+        graph.AddEdge(0, 1)
+        graph.AddEdge(0, 2)
+        graph.AddEdge(0, 3)
+
+        weak_vertices = graph.WeakVertices()
+        self.assertEqual(weak_vertices[0].Value, 0)
+        self.assertEqual(weak_vertices[1].Value, 1)
+        self.assertEqual(weak_vertices[2].Value, 2)
+
+        graph.AddEdge(1, 3)
+        weak_vertices = graph.WeakVertices()
+        self.assertEqual(weak_vertices[0].Value, 2)
+
+        graph.AddEdge(1, 2)
+        self.assertListEqual(graph.WeakVertices(), [])
+
+        graph = SimpleGraph(11)
+        graph.AddVertex(vertex_0)
+        graph.AddVertex(vertex_1)
+        graph.AddVertex(vertex_2)
+        graph.AddVertex(vertex_3)
+        graph.AddVertex(vertex_4)
+        graph.AddVertex(vertex_5)
+        graph.AddVertex(vertex_6)
+        graph.AddVertex(vertex_7)
+        graph.AddVertex(vertex_8)
+        graph.AddVertex(vertex_9)
+        graph.AddVertex(vertex_10)
+        graph.AddEdge(0, 1)
+        graph.AddEdge(0, 2)
+        graph.AddEdge(0, 3)
+        graph.AddEdge(1, 3)
+        graph.AddEdge(1, 4)
+        graph.AddEdge(2, 3)
+        graph.AddEdge(3, 3)
+        graph.AddEdge(3, 4)
+        graph.AddEdge(3, 5)
+        graph.AddEdge(4, 8)
+        graph.AddEdge(5, 6)
+        graph.AddEdge(5, 8)
+        graph.AddEdge(6, 7)
+        graph.AddEdge(7, 8)
+        graph.AddEdge(7, 9)
+        graph.AddEdge(7, 10)
+
+        #  0---1\         10
+        #  |\  | \        |
+        #  | \ |  4--8----7----9
+        #  |  \| /   |    |
+        #  2---3/----5----6
+        #     /_\
+
+        weak_vertices = graph.WeakVertices()
+        self.assertEqual(weak_vertices[0].Value, 5)
+        self.assertEqual(weak_vertices[1].Value, 6)
+        self.assertEqual(weak_vertices[2].Value, 7)
+        self.assertEqual(weak_vertices[3].Value, 8)
+        self.assertEqual(weak_vertices[4].Value, 9)
+        self.assertEqual(weak_vertices[5].Value, 10)
